@@ -1,4 +1,12 @@
-# express_skeleton_html
-Express generator with pure HTML
+# 23-teampjt-team
 
-이 프로젝트에서부터 시작하세요
+23-2 웹서비스설계및실습 팀프로젝트
+
+팀명 바바바웹취 조
+
+PM 정보융합학부 고유진 2020204017
+팀원 정보융합학부 김서연 2020204094
+팀원 정보융합학부 민희원 2021204022
+
+
+
