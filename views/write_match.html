@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    .warning {
+        margin: 2em auto;
+        padding:2em;
+        border-radius: 30px 60px/60px 30px;
+        border: solid 8px #9ee7a1;
+    }
+
+    .checkbox-wrapper input {
+        display: inline-block;
+        /* margin-right: 5px; */
+    }
+
+    .checkbox-wrapper label {
+        display: inline-block;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      text-align: left;
+    }
+
+    .write input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .write textarea {
+      resize: vertical;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* .checkbox-wrapper input { */
+        /* display: inline-block; */
+        /* align-items: center; */
+        /* vertical-align: middle; }*/
+
+  </style>
+
+  <title>매치 글 작성</title>
+</head>
+<body>
+  <!-- 네비게이션 바는 최종 완성되면 끌고오기 -->
+  <div class="container">
+    <div class="header">
+        <h2>매치 글 작성</h2>
+    </div>
+    <div class="warning">
+        <h1>주의 사항</h1>
+        <br>팡팡은 누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티 이용규칙을 제정하여 운영하고 있습니다. 
+        <br>위반 시 게시물이 삭제됩니다.
+        <br>아래는 이 게시판에 해당하는 핵심 내용입니다.
+        <br>1. 게시물에 대한 권리와 책임은 게시물을 등록한 회원에게 있습니다.
+        <br>2. 게시물은 타인의 명예를 훼손하는 내용을 포함할 수 없습니다.
+        <br>3. 게시물은 타인의 권리를 침해하거나 불쾌감을 주는 게시물은 작성할 수 없습니다.
+        <br>4. 게시물은 정치와 관련된 내용을 표함할 수 없습니다.
+        <br>위 내용을 확인하셨으면 체크 박스를 클릭해주세요.
+
+        <div class="checkbox-wrapper">
+            <input type="checkbox" id="agree" value="agree">
+            <label for="agree">위 사항을 모두 확인했습니다.</label>
+        </div>
+
+    </div>
+    <div class="write">
+        <form action="#" method="post">
+                
+            <input type="text" class="title" name="title" placeholder="제목" required>
+            <input type="text" class="location" name="location" placeholder="장소" required>
+            <input type="datetime-local" class="time" placeholder="시간" required>
+            <input type="number" class="fee" placeholder="참가비" required>   
+            <input type="number" class="people" placeholder="모집 인원" required>
+    
+            <select class="gender">
+                <option value="" selected disabled hidden>성별 선택</option>
+                <option value="남">남</option>
+                <option value="여">여</option>
+                <option value="남녀무관">남녀무관</option>
+            </select>
+    
+            <label for="description">상세 설명</label>
+            <textarea id="description" name="description" rows="4" placeholder="상세 설명" required></textarea>
+                        
+            <button type="submit">글 작성</button>
+            <button type="reset">취소</button>
+        </form>
+    </div> 
+  </div>
+</body>
+</html>
