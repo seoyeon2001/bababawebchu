@@ -15,6 +15,18 @@ router.get("/", function (req, res, next) {
   });
 });
 
+router.get("/navbar", function (req, res, next) {
+  fs.readFile("./views/navbar.html", (err, data) => {
+      if (err) {
+      res.send("error");
+      } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+      }
+  });
+});
+
 
 
 

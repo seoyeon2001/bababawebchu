@@ -88,6 +88,17 @@ router.get("/promotion", function (req, res, next) {
     });
 });
 
+router.get("/write_board", function (req, res, next) {
+  fs.readFile("./views/write_board.html", (err, data) => {
+      if (err) {
+      res.send("error");
+      } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+      }
+  });
+});
   
 
 module.exports = router;

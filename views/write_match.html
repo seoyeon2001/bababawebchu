@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      display: flex;
+      /* display: flex; */
       justify-content: center;
       align-items: center;
+    }
+
+    .header {
+      padding: 30px;
+      text-align: center;
     }
 
     h2 {
@@ -50,6 +58,7 @@
     
     .write textarea {
       resize: vertical;
+      height: 200px;
     }
 
     button {
@@ -66,17 +75,25 @@
       background-color: #45a049;
     }
 
-    /* .checkbox-wrapper input { */
-        /* display: inline-block; */
-        /* align-items: center; */
-        /* vertical-align: middle; }*/
+/* .checkbox-wrapper input {
+        display: inline-block;
+        align-items: center;
+        vertical-align: middle; } */
 
   </style>
+  <script>      
+    fetch('/navbar')
+      .then(response => {return response.text()})
+        .then(data => {document.getElementById("content").innerHTML = data;})
+        .catch(error => console.error('Error:', error));
+  </script>
 
   <title>매치 글 작성</title>
 </head>
 <body>
-  <!-- 네비게이션 바는 최종 완성되면 끌고오기 -->
+  <!-- 네비게이션바 -->
+  <div id='content'></div>
+
   <div class="container">
     <div class="header">
         <h2>매치 글 작성</h2>
@@ -93,34 +110,61 @@
         <br>위 내용을 확인하셨으면 체크 박스를 클릭해주세요.
 
         <div class="checkbox-wrapper">
-            <input type="checkbox" id="agree" value="agree">
+            <input type="checkbox" id="agree" value="agree" required>
             <label for="agree">위 사항을 모두 확인했습니다.</label>
         </div>
-
     </div>
     <div class="write">
-        <form action="#" method="post">
+        <form action="#" method="post" onsubmit="return validateForm()">
                 
             <input type="text" class="title" name="title" placeholder="제목" required>
             <input type="text" class="location" name="location" placeholder="장소" required>
             <input type="datetime-local" class="time" placeholder="시간" required>
             <input type="number" class="fee" placeholder="참가비" required>   
             <input type="number" class="people" placeholder="모집 인원" required>
+
+            <input type="radio" class="btn-check" name="options-outlined" id="male" autocomplete="off">
+            <label class="btn btn-outline-success" for="male">남자</label>
+
+            <input type="radio" class="btn-check" name="options-outlined" id="female" autocomplete="off">
+            <label class="btn btn-outline-success" for="female">여자</label>
+
+            <input type="radio" class="btn-check" name="options-outlined" id="irrelevant" autocomplete="off">
+            <label class="btn btn-outline-success" for="irrelevant">성별 무관</label>
     
-            <select class="gender">
+            <!-- <select class="gender">
                 <option value="" selected disabled hidden>성별 선택</option>
                 <option value="남">남</option>
                 <option value="여">여</option>
                 <option value="남녀무관">남녀무관</option>
-            </select>
+            </select> -->
     
-            <label for="description">상세 설명</label>
+            <!-- <label for="description">상세 설명</label> -->
             <textarea id="description" name="description" rows="4" placeholder="상세 설명" required></textarea>
-                        
-            <button type="submit">글 작성</button>
-            <button type="reset">취소</button>
         </form>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="submit">글 작성</button>
+          <button type="reset">취소</button> 
+        </div>
+        
     </div> 
   </div>
+
+  <script>
+
+    // 유의사항 체크 확인 함수
+    function validateForm() {
+      var agreeCheckbox = document.getElementById('agree');
+
+      if (!agreeCheckbox.checked) {
+        alert('주의 사항에 동의해야만 제출이 가능합니다.');
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
