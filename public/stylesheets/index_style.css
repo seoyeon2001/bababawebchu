@@ -191,4 +191,68 @@
     cursor: pointer;
 }
 
+/* 사이드바 래퍼 스타일 */
+  
+#page-wrapper {
+  padding-left: 250px;
+}
 
+#sidebar-wrapper {
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  margin-left: -250px;
+  background: #006f3e;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  padding: 20px;
+}
+/* 사이드바 스타일 */
+
+.sidebar-nav {
+  width: 250px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-nav li {
+  text-indent: 1.5em;
+  line-height: 2.8em;
+}
+
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+}
+
+.sidebar-nav li a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-nav > .sidebar-brand {
+  font-size: 1.3em;
+  line-height: 3em;
+}
+.custom-navbar .custom-navbar-nav li a.active:before,
+.custom-navbar .custom-navbar-nav li a:hover:before {
+    content: "";
+    position: absolute;
+    bottom: -3px; /* Adjust this value to fit the underline position */
+    left: 0;
+    right: 0;
+    background: #f9bf29;
+    height: 3px; /* Adjust the height of the underline */
+    opacity: 1;
+    visibility: visible;
+    width: 100%;
+    -webkit-transition: 0.15s all ease-out;
+    -o-transition: 0.15s all ease-out;
+    transition: 0.15s all ease-out;
+}
