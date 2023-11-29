@@ -11,6 +11,7 @@ const communityRouter = require("./routes/community");
 const matchyRouter = require("./routes/match");
 const infoRouter = require("./routes/info");
 const helpRouter = require("./routes/help");
+const membersRouter = require("./routes/api/members");
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use("/community", communityRouter);
 app.use("/match", matchyRouter);
 app.use("/info", infoRouter);
 app.use("/help", helpRouter);
+app.use("/api/members", membersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -50,7 +52,7 @@ app.use(function (err, req, res, next) {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('500번 오류!');
+  res.status(500).send("500번 오류!");
 });
 
 module.exports = app;
