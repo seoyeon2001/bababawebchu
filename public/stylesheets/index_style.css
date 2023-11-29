@@ -240,19 +240,11 @@
   font-size: 1.3em;
   line-height: 3em;
 }
-.custom-navbar .custom-navbar-nav li a.active:before,
-.custom-navbar .custom-navbar-nav li a:hover:before {
-    content: "";
-    position: absolute;
-    bottom: -3px; /* Adjust this value to fit the underline position */
-    left: 0;
-    right: 0;
-    background: #f9bf29;
-    height: 3px; /* Adjust the height of the underline */
-    opacity: 1;
-    visibility: visible;
-    width: 100%;
-    -webkit-transition: 0.15s all ease-out;
-    -o-transition: 0.15s all ease-out;
-    transition: 0.15s all ease-out;
+
+.sidebar-nav .underline-on {
+  text-decoration: underline;
+  text-decoration-color:#F5D042;
+  text-decoration-thickness: 3px;
+ 
 }
+
