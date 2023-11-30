@@ -1,6 +1,6 @@
 const express = require("express");
-const mongoose = require("../../mongoose/index.js");
-const User = require("../../mongoose/schemas/user.js");
+const mongoose = require("../mongoose/index.js");
+const User = require("../mongoose/schemas/user.js");
 const router = express.Router();
 const fs = require("fs");
 
