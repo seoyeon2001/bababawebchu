@@ -8,7 +8,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const loginRouter = require("./routes/login");
 const communityRouter = require("./routes/community");
-const matchyRouter = require("./routes/match");
+const matchRouter = require("./routes/match");
 const infoRouter = require("./routes/info");
 const helpRouter = require("./routes/help");
 
@@ -28,9 +28,10 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/community", communityRouter);
-app.use("/match", matchyRouter);
+app.use("/match", matchRouter);
 app.use("/info", infoRouter);
 app.use("/help", helpRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -28,4 +28,17 @@ router.get("/write", function (req, res, next) {
   });
 });  
 
+/* GET match content page. */
+router.get("/read", function (req, res, next) {
+  fs.readFile("./views/read_match.html", (err, data) => {
+    if (err) {
+      res.send("error");
+    } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+    }
+  });
+});  
+
 module.exports = router;
