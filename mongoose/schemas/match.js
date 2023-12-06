@@ -6,6 +6,10 @@ const matchSchema = new Schema({
         type : String,
         required : true,
     },
+    state : { // 모집 상태
+        type : String,
+        required : true,
+    },
     title: { // 제목
         type : String,
         required : true

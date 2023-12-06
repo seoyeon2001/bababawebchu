@@ -44,6 +44,7 @@ router.post("/write", verifyToken, async (req, res, next) => {
 
   await Match.create({
     writer: userid,
+    state: "ing",
     // id: ,
     title: title,
     location: location,
@@ -79,7 +80,7 @@ router.get("/list", async function (req, res, next) {
     const page = req.query.page || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
 
-    const matchList = await Match.find({title: title , writer:writer, createdAt:createdAt})
+    const matchList = await Match.find({ })
       .sort({ createdAt: -1 })
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
