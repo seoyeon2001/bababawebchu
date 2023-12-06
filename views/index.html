@@ -21,49 +21,81 @@
   <body>
     <!-- 네비게이션바 -->
     <div id='content'></div>
-  <div class="container text-center">
-  <div class="row mt-5">
-		<div class="col-md-6 ">
-      <!--날씨 위젯-->
-    <div id="ww_7670e5ad3bc11" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl4479"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://sharpweather.com/ko/seoul/" id="ww_7670e5ad3bc11_u" target="_blank">날씨 시간별 서울</a></div>
-    <script async src="https://app2.weatherwidget.org/js/?id=ww_7670e5ad3bc11"></script>  
-		</div>
-		<div class="col-md-6">
-		</div>
-	</div>
-	<div class="row mt-5 ">
-		<div class="col-md-6 ">
-      <div><!--달력-->
-        <table class="Calendar">
-            <thead>
-                <tr>
-                    <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
-                    <td colspan="5">
-                        <span id="calYear"></span>년
-                        <span id="calMonth"></span>월
-                    </td>
-                    <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
-                </tr>
-                <tr>
-                    <td>일</td>
-                    <td>월</td>
-                    <td>화</td>
-                    <td>수</td>
-                    <td>목</td>
-                    <td>금</td>
-                    <td>토</td>
-                </tr>
-            </thead>
-  
-            <tbody>
-            </tbody>
-        </table>
+
+    <div class="row mt-5"></div> <!--여백-->
+
+    <div class="container-fluid px-5 mt-7">
+    <div class="row">
+        <div class="col-md-6 px-4 mb-4"> 
+            <div class="card">
+                <div class="card-body">
+                   <!--날씨 위젯-->
+                   <div id="ww_7670e5ad3bc11" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl4479"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://sharpweather.com/ko/seoul/" id="ww_7670e5ad3bc11_u" target="_blank">날씨 시간별 서울</a></div>
+                    <script async src="https://app2.weatherwidget.org/js/?id=ww_7670e5ad3bc11"></script>  
+                </div>
+            </div>
+        </div>
+       
+            <div class="col-md-6 px-4 mb-4"> 
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">오늘 올라온 매치글이 궁금하다면?</h5>
+                    <p class="card-text"><br/>지금 바로 스포츠 파트너를 찾아보세요!<br/><br/></p>
+                    <a href="/match" class="btn" style="background-color: #006f3e; color: white;">Go Match!</a>
+
+            </div>
+        </div>
     </div>
-		</div>
-		<div class="col-md-6">
-		</div>
-	</div>
-</div>
+
+      <div class="row mt-5"></div> <!--여백-->
+
+      <div class="row">
+            <div class="col-md-6 px-4 mb-4"> 
+            <div class="card">
+                <div class="card-body text-center"> <!-- 달력을 가운데 정렬 -->
+                <!--달력-->
+                <table class="Calendar">
+                    <thead>
+                        <tr>
+                            <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+                            <td colspan="5">
+                                <span id="calYear"></span>년
+                                <span id="calMonth"></span>월
+                            </td>
+                            <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+                        </tr>
+                        <tr>
+                            <td>일</td>
+                            <td>월</td>
+                            <td>화</td>
+                            <td>수</td>
+                            <td>목</td>
+                            <td>금</td>
+                            <td>토</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+    
+        
+            <div class="col-md-6 px-4 mb-4"> 
+                <div class="card">
+            <div class="card-body">
+              
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+      
+  
+
+		
+
          
      
     
