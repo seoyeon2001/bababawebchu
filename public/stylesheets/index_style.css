@@ -1,11 +1,11 @@
 .custom-navbar {
   /*헤더*/
   background: #006f3e !important;
-  padding-top: 20px;
+  padding-top: 25px;
   padding-bottom: 20px;
 }
 .custom-navbar .navbar-brand {
-  font-size: 45px;
+  font-size: 25px;
   font-weight: 600;
 }
 .custom-navbar .navbar-brand > span {
@@ -29,7 +29,7 @@
 .custom-navbar .custom-navbar-nav li a {
   /*상단 메뉴바 */
   font-weight: 500;
-  font-size: 25px;
+  font-size: 18px;
   color: #ffffff !important;
   opacity: 1;
   -webkit-transition: 0.3s all ease;
@@ -237,7 +237,7 @@
 }
 
 .sidebar-nav > .sidebar-brand {
-  font-size: 1.3em;
+  font-size: 15px;
   line-height: 3em;
 }
 
