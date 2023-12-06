@@ -3,9 +3,8 @@ const { Schema } = mongoose;
 
 const boardSchema = new Schema({
     writer : { // 유저 아이디
-        type : Schema.Types.ObjectId,
+        type : String,
         required : true,
-        ref: 'User'
     },
     id: { //게시글 번호
         type : String,

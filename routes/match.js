@@ -8,6 +8,9 @@ const crypto = require('crypto');
 require("dotenv").config();
 const { verifyToken } = require("./middlewares.js");
 
+const ejs = require('ejs');
+
+
 /* GET match page. */
 router.get("/", function (req, res, next) {
   fs.readFile("./views/match.html", (err, data) => {
@@ -73,29 +76,30 @@ const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
 
 router.get("/list", async function (req, res, next) {
   try {
-    const page = req.query.page || 1; // 쿼리 파라미터로 현재 페이지를 받아옴
-    const skipItems = (page - 1) * ITEMS_PER_PAGE; // 건너뛸 매치글 수
+    const page = req.query.page || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
 
-    // 데이터베이스에서 매치글을 가져오는 쿼리를 실행하고 페이지에 맞게 필요한 매치글만 가져옴
-    const matchList = await Match.find({})
-      .sort({ createdAt: -1 }) // 최신순으로 정렬 (createdAt은 매치글 생성 시간을 가정)
+    const matchList = await Match.find({title: title , writer:writer, createdAt:createdAt})
+      .sort({ createdAt: -1 })
       .skip(skipItems)
       .limit(ITEMS_PER_PAGE);
+    console.log("Match list fetched:", matchList);
 
-    const totalMatches = await Match.countDocuments(); // 전체 매치글 수
+    const totalMatches = await Match.countDocuments();
+    const totalPages = Math.ceil(totalMatches / ITEMS_PER_PAGE);
 
-    const totalPages = Math.ceil(totalMatches / ITEMS_PER_PAGE); // 전체 페이지 수 계산
-
-    res.render("match", {
-      matchList: matchList,
+    // JSON 데이터를 먼저 클라이언트에게 반환합니다.
+    res.json({ 
+      boards: matchList, // matchList를 'boards'라는 이름으로 반환합니다.
       currentPage: page,
-      hasNextPage: ITEMS_PER_PAGE * page < totalMatches, // 다음 페이지 여부 확인
-      hasPrevPage: page > 1, // 이전 페이지 여부 확인
-      nextPage: +page + 1, // 다음 페이지 번호
-      prevPage: page - 1, // 이전 페이지 번호
+      hasNextPage: ITEMS_PER_PAGE * page < totalMatches,
+      hasPrevPage: page > 1,
+      nextPage: +page + 1,
+      prevPage: page - 1,
       totalPages: totalPages,
     });
   } catch (err) {
+    console.error("Error fetching match list:", err);
     res.send("Error fetching match list");
   }
 });
