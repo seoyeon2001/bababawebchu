@@ -170,7 +170,7 @@
             <textarea id="description" name="description" rows="4" placeholder="상세 설명" required></textarea>
         </form>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="submit">글 작성</button>
+          <button type="button" onclick="submitForm()">글 작성</button>
           <button type="reset">취소</button> 
         </div>
         
@@ -178,17 +178,47 @@
   </div>
 
   <script>
-
-    // 유의사항 체크 확인 함수
-    function validateForm() {
+    // 글 작성 버튼 클릭 시 실행되는 함수
+    function submitForm() {
+      // 유의사항 체크 확인
       var agreeCheckbox = document.getElementById('agree');
-
       if (!agreeCheckbox.checked) {
         alert('주의 사항에 동의해야만 제출이 가능합니다.');
-        return false;
+        return;
       }
-
-      return true;
+  
+      // 폼 데이터 수집
+      const formData = {
+        title: document.querySelector('.title').value,
+        location: document.querySelector('.location').value,
+        time: document.querySelector('.time').value,
+        price: document.querySelector('.fee').value,
+        people: document.querySelector('.people').value,
+        gender: document.querySelector('.btn-check:checked').value,
+        content: document.querySelector('#description').value
+      };
+  
+      // AJAX를 사용하여 서버로 데이터 전송
+      fetch('/write', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // 서버에서 응답이 성공적으로 돌아오면 read_match.html로 페이지 이동
+          window.location.href = '/read_match?postId=' + data.postId;
+        } else {
+          alert('서버에서 글 작성에 실패했습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('글 작성에 실패했습니다.');
+      });
     }
   </script>
   
