@@ -248,3 +248,16 @@
  
 }
 
+/*read_match.html*/
+#comment-input{
+  width: 80%;
+  height: 3.3em;
+}
+#submit{
+  
+  width: 5.5em;
+  height: 3.3em;;
+  font-size: 15px;
+  font-weight: bold;
+  color: aliceblue;
+}
