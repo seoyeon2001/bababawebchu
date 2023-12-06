@@ -13,6 +13,7 @@
       /* display: flex; */
       justify-content: center;
       align-items: center;
+      overflow-x: hidden;
     }
 
     .header {
@@ -98,8 +99,7 @@
   <main class="mt-3 pt-1">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-         
+        <div class="col-md-12">         
           <i class="bi bi-house-fill"> / 매치 / 매치 게시물 작성</i>
         </div> 
       </div>
@@ -142,54 +142,92 @@
         </div>
     </div>
     <div class="write">
-        <form action="#" method="post" onsubmit="return validateForm()">
-                
-            <input type="text" class="title" name="title" placeholder="제목" required>
-            <input type="text" class="location" name="location" placeholder="장소" required>
-            <input type="datetime-local" class="time" placeholder="시간" required>
-            <input type="number" class="fee" placeholder="참가비" required>   
-            <input type="number" class="people" placeholder="모집 인원" required>
+      <form action="/match/write" method="post">
+              
+        <input type="text" id="title" name="title" placeholder="제목" required>
+        <input type="text" id="sport" name="sport" placeholder="종목" required>
+        <input type="text" id="location" name="location" placeholder="장소" required>
+        <input type="datetime-local" id="time" placeholder="시간" required>
+        <input type="number" id="fee" placeholder="참가비" required>   
+        <input type="number" id="people" placeholder="모집 인원" required>
 
-            <input type="radio" class="btn-check" name="options-outlined" id="male" autocomplete="off">
-            <label class="btn btn-outline-success" for="male">남자</label>
+        <input type="radio" class="btn-check" name="options-outlined" id="male" value="male" autocomplete="off">
+        <label class="btn btn-outline-success" for="male" value="male">남자</label>
 
-            <input type="radio" class="btn-check" name="options-outlined" id="female" autocomplete="off">
-            <label class="btn btn-outline-success" for="female">여자</label>
+        <input type="radio" class="btn-check" name="options-outlined" id="female" value="female" autocomplete="off">
+        <label class="btn btn-outline-success" for="female" value="female">여자</label>
 
-            <input type="radio" class="btn-check" name="options-outlined" id="irrelevant" autocomplete="off">
-            <label class="btn btn-outline-success" for="irrelevant">성별 무관</label>
-    
-            <!-- <select class="gender">
-                <option value="" selected disabled hidden>성별 선택</option>
-                <option value="남">남</option>
-                <option value="여">여</option>
-                <option value="남녀무관">남녀무관</option>
-            </select> -->
-    
-            <!-- <label for="description">상세 설명</label> -->
-            <textarea id="description" name="description" rows="4" placeholder="상세 설명" required></textarea>
-        </form>
+        <input type="radio" class="btn-check" name="options-outlined" id="irrelevant" value="irrelevant" autocomplete="off">
+        <label class="btn btn-outline-success" for="irrelevant" value="irrelevant">성별 무관</label>
+
+        <textarea id="description" name="description" rows="4" placeholder="상세 설명" required></textarea>
+      
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="submit">글 작성</button>
+          <button value='findsportmate' type="submit">글 작성</button>
           <button type="reset">취소</button> 
         </div>
         
+    </form>
     </div> 
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication(); // 페이지 로드 시 토큰 확인
+    });
 
-    // 유의사항 체크 확인 함수
-    function validateForm() {
-      var agreeCheckbox = document.getElementById('agree');
+    // 사용자의 인증 여부를 확인하는 함수
+    function checkAuthentication() {
+      const token = sessionStorage.getItem('토큰');
+
+      if (!token) {
+        // 토큰이 없으면 로그인 화면으로 리다이렉트
+        alert('로그인이 필요합니다.');
+        window.location.href = '/users/login'; // 로그인 화면으로 리다이렉트
+      }
+    }
+
+    document.querySelector('button[value="findsportmate"]').addEventListener('click', function(event) {
+      event.preventDefault(); // 기본 동작 방지
+
+      const agreeCheckbox = document.getElementById('agree');
 
       if (!agreeCheckbox.checked) {
         alert('주의 사항에 동의해야만 제출이 가능합니다.');
         return false;
-      }
+      } else {
+        const title = document.getElementById('title').value;
+        const sport = document.getElementById('sport').value;
+        const location = document.getElementById('location').value;
+        const time = document.getElementById('time').value;
+        const fee = document.getElementById('fee').value;
+        const people = document.getElementById('people').value;
+        const description = document.getElementById('description').value;
+        const gender = document.querySelector('input[name="options-outlined"]:checked').value;
 
-      return true;
-    }
+        const token = sessionStorage.getItem('토큰'); 
+
+        fetch('/match/write', {
+          method: 'POST',
+          headers: {
+            'authorization': `${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title, sport, location, time, fee, people, description, gender })
+        })
+        .then(response => { return response.json(); })
+        .then(data => {
+          if (data.success) {
+            alert('매치 글 작성이 완료되었습니다.');
+            window.location.href = '/match';
+          }
+        })
+        .catch(error => {
+          console.error('에러가 발생했습니다.:', error);
+        });        
+      }
+    });
+    
   </script>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

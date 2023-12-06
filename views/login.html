@@ -1,29 +1,22 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
     <title>PangPang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        html, body {
-          height: 100%;
-        }
-
-        body {
-          display: flex;
-          align-items: center;
-          padding-top: 40px;
-          padding-bottom: 40px;
-        }
-
-        .container {
+        .logincontainer {
           background-color: #fff;
-          padding: 20px;
+          padding: 40px;
           border-radius: 8px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           width: 600px;
           text-align: center;
+          margin: auto;
         }
 
         .form-signin {
@@ -31,7 +24,6 @@
           max-width: 330px;
           padding: 15px;
           margin: auto;
-          /* background-color: #3CB371; */
         }
 
         .form-signin .checkbox {
@@ -84,34 +76,86 @@
           float: right;
         }
     </style>
+    <script>      
+      fetch('/navbar')
+        .then(response => {return response.text()})
+          .then(data => {document.getElementById("content").innerHTML = data;})
+          .catch(error => console.error('Error:', error));
+    </script>
   </head>
 
   <body>
-    <main class="container">
-        <form>
-          <h1 class="h3 mb-3 fw-normal">반갑습니다!</h1>
-          <div class="form-floating">
-              <input type="id" class="form-control" id="floatingID" placeholder="" required>
-              <label for="floatingID">ID</label>
-              <div class="invalid-feedback">Please enter your username.</div>
-          </div>
+    <!-- 네비게이션바 -->
+    <div id='content'></div>
 
-          <div class="form-floating">
-              <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-              <label for="floatingPassword">Password</label>
-              <div class="invalid-feedback">Please enter your password.</div>
-          </div>
-
-          <div class="checkbox mb-3">
-            <input type="checkbox" value="remember-me" id="rememberMe">       
-            <label for="rememberMe">아이디 저장</label>
-          </div>
-
-          <button class="loginbutton" type="submit">로그인하기</button>
-          
-          <div><a href="/login/signup">회원가입</a></div>
-      </form>
+    <!--빵 부스러기 (Breadcrumb)-->
+    <main class="mt-3 pt-1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+           
+            <i class="bi bi-house-fill"> > 로그인</i>
+          </div> 
+        </div>
+      </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <main class="logincontainer">
+      <h1 class="h3 mb-3 fw-normal">반갑습니다!</h1>
+      <form action="/users/login" method="POST">
+        <div class="form-floating">
+            <input type="id" class="form-control" id="floatingID" placeholder="" required>
+            <label for="floatingID">ID</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <button class="loginbutton" type="submit">로그인하기</button>
+        
+    </form>
+    <div><a href="/users/join">회원가입</a></div>
+  </main>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <script>
+    document.querySelector('button').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const id = document.getElementById('floatingID').value;
+        const password = document.getElementById('floatingPassword').value;
+
+        fetch('/users/login/check', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, password })
+        })
+        .then(response => { 
+          console.log(response);
+          return response.json(); })
+        .then(data => {
+          console.log(data);
+            if (data.type === 'right') {
+                alert('로그인 성공!');
+                sessionStorage.setItem('토큰', data.token);
+                window.location.href = '/';
+            } else if (data.type === 'no_id') {
+                alert('존재하지 않는 아이디입니다.');
+                window.location.href = '/users/login';
+            } else if (data.type === 'wrong_pw') {
+                alert('비밀번호가 일치하지 않습니다.');
+                window.location.href = '/users/login';
+            }
+        })
+        .catch(error => {
+            console.error('에러가 발생했습니다.:', error);
+        });
+    })
+
+</script>
+
   </body>
 </html>

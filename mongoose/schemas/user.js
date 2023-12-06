@@ -7,11 +7,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  phone: {
-    type: String,
-    require: true,
-    unique: true,
-  },
   email: {
     type: String,
     require: true,
@@ -22,6 +17,10 @@ const userSchema = new Schema({
     require: true,
   },
   pw: {
+    type: String,
+    require: true,
+  },
+  salt: {
     type: String,
     require: true,
   },

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+    <title>PangPang</title>
+    <style>
+      .mypagecontent {
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          width: 600px;
+          text-align: center;
+          margin: auto;
+      }
+    </style>
+    <script>      
+      fetch('/navbar')
+        .then(response => {return response.text()})
+          .then(data => {document.getElementById("content").innerHTML = data;})
+          .catch(error => console.error('Error:', error));
+    </script>
+  </head>
+  <body>
+    <!-- 네비게이션바 -->
+    <div id='content'></div>
+
+    <!--빵 부스러기 (Breadcrumb)-->
+    <main class="mt-3 pt-1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+           
+            <i class="bi bi-house-fill"> > 마이페이지</i>
+          </div> 
+        </div>
+      </div>
+    </main>
+
+    <!--사이드바 -->
+    <div id="page-wrapper">
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="/users" >마이페이지</a>
+            <br>
+            <br>
+            <br>
+            <button type="button" onclick="deleteAccount()" class="btn" style="color: white; background-color: #006f3e;">탈퇴</button>
+          </li>
+        </ul>
+      </div>
+      <hr class="my-4" style="height: 3px; background-color: #006f3e;">
+
+      <main class="mypagecontent">
+        <!-- 아이디 정보 -->
+        <div>아이디</div>
+        <div id="user-id"></div>
+        <br>
+        <div>이메일</div>
+        <div id="user-email"></div>
+        <br>
+      
+        <form>
+          <div class="mb-3">
+            <label for="current-password" class="form-label">현재 비밀번호</label>
+            <input type="password" class="form-control" id="current-password" placeholder="현재 비밀번호">
+          </div>
+          <div class="mb-3">
+            <label for="new-password" class="form-label">새 비밀번호</label>
+            <input type="password" class="form-control" id="new-password" placeholder="새 비밀번호" onchange="checkNewPw()">
+          </div>
+          <div id="check"></div>
+        </form>
+        
+        <button type="button" id="changebutton" onclick="updatePassword()" class="btn btn-success" disabled>비밀번호 수정</button>
+
+      </main>      
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAuthentication(); // 페이지 로드 시 토큰 확인
+        getUserId(); // 페이지 로드 시 아이디 확인
+        getUserEmail(); // 페이지 로드 시 이메일 확인
+      });
+
+      // 사용자의 인증 여부를 확인하는 함수
+      function checkAuthentication() {
+        const token = sessionStorage.getItem('토큰');
+
+        if (!token) {
+          // 토큰이 없으면 로그인 화면으로 리다이렉트
+          alert('로그인이 필요합니다.');
+          window.location.href = '/users/login'; // 로그인 화면으로 리다이렉트
+        }
+      }
+
+      function getUserId() {
+        const token = sessionStorage.getItem('토큰'); 
+        
+        fetch("/users/getid", {
+          method: 'GET',
+          headers: {
+            'authorization': `${token}`,
+            'Content-Type': 'application/json'
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('user-id').innerText = data.user_id;
+        })
+        .catch(error => console.error('Error:', error));
+      }
+
+      function getUserEmail() {
+        const token = sessionStorage.getItem('토큰'); 
+        
+        fetch("/users/getemail", {
+          method: 'GET',
+          headers: {
+            'authorization': `${token}`,
+            'Content-Type': 'application/json'
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('user-email').innerText = data.user_email;
+        })
+        .catch(error => console.error('Error:', error));
+      }
+
+      // 새로운 비밀번호 유효성 검사
+      function checkNewPw() {
+          const password = document.getElementById('new-password').value;
+          const check = document.getElementById('check');
+
+          const regex = /^(?=.*[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?=.*\d).{8,16}$/;
+          if (!regex.test(password)) {
+              document.getElementById('new-password').value = ''; // 유효성 검사 통과 못하면 입력한 값 지움
+              document.getElementById('new-password').focus();
+              check.innerHTML = '비밀번호는 영어, 숫자, 특수문자의 조합이며 8글자~ 16글자이어야 합니다.';
+              check.style.color = 'red';
+              document.getElementById('changebutton').disabled = true;
+          } else {
+            check.innerHTML = ''; // 유효성 검사 통과 시 에러 메시지를 지움
+            document.getElementById('changebutton').disabled = false;
+          }
+      }
+
+      // 비밀번호 변경
+      function updatePassword() {
+        const token = sessionStorage.getItem('토큰'); 
+        const currentPassword = document.getElementById('current-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        console.log(currentPassword, newPassword)
+
+        fetch("/users/changepassword", {
+            method: 'PUT',
+            headers: { 
+              'authorization': `${token}`,
+              'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify({
+              currentPassword: currentPassword,
+              newPassword: newPassword
+            })
+        })
+        .then(response => { return response.json(); })
+        .then(data => {
+          alert(data.message);
+          document.getElementById('current-password').value = '';
+          document.getElementById('new-password').value = '';
+          document.getElementById('current-password').focus();
+        })
+        .catch(error => console.error('Error:', error));
+      }
+
+        function deleteAccount() {
+          const token = sessionStorage.getItem('토큰'); 
+
+          if (confirm("정말로 탈퇴하시겠습니까?")) {
+            const confirmPassword = prompt('비밀번호를 입력하세요');
+
+            fetch("/users/delete", {
+                method: 'DELETE',
+                headers: { 
+                  'authorization': `${token}`,
+                  'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify({
+                  password: confirmPassword,
+                }),
+            })
+            .then(response => { return response.json(); })
+            .then(data => { 
+              alert(data.message); 
+              if (data.state) {
+                sessionStorage.removeItem('토큰');
+                location.href = '/';
+              }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+      }
+  </script>
+
+  </body>
+</html>
