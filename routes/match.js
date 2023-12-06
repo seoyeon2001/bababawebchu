@@ -46,7 +46,7 @@ router.post("/write", verifyToken, async (req, res, next) => {
     writer: userid,
     // id: ,
     title: title,
-    state: "ing",
+    state: "모집중",
     location: location,
     matchDate: time,
     price: fee,

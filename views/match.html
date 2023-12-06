@@ -63,6 +63,7 @@
               <thead>
                 <tr>
                   <th>번호</th>
+                  <th>모집 상태</th>
                   <th>운동종목</th>
                   <th>제목</th>
                   <th>작성자</th>
@@ -94,6 +95,7 @@
             const formattedDate = new Date(matches.createdAt).toLocaleDateString();
             row.innerHTML = `
               <td>${index + 1}</td>
+              <td>${matches.state}</td>
               <td>${matches.sport}</td>
               <td>${matches.title}</td>
               <td>${matches.writer}</td>
