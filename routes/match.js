@@ -77,8 +77,11 @@ const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
 
 router.get("/list", async function (req, res, next) {
   try {
-    const page = req.query.page || 1;
+    const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
+
+    const totalMatches = await Match.countDocuments();
+    const totalPages = Math.ceil(totalMatches / ITEMS_PER_PAGE);
 
     const matchList = await Match.find({})
       .sort({ createdAt: -1 })
@@ -86,23 +89,21 @@ router.get("/list", async function (req, res, next) {
       .limit(ITEMS_PER_PAGE);
     console.log("Match list fetched:", matchList);
 
-    const totalMatches = await Match.countDocuments();
-    const totalPages = Math.ceil(totalMatches / ITEMS_PER_PAGE);
-
     // JSON 데이터를 먼저 클라이언트에게 반환합니다.
     res.json({ 
       boards: matchList, // matchList를 'boards'라는 이름으로 반환합니다.
       currentPage: page,
       hasNextPage: ITEMS_PER_PAGE * page < totalMatches,
       hasPrevPage: page > 1,
-      nextPage: +page + 1,
-      prevPage: page - 1,
+      nextPage: page < totalPages ? page + 1 : null,
+      prevPage: page > 1 ? page - 1 : null,
       totalPages: totalPages,
     });
   } catch (err) {
     console.error("Error fetching match list:", err);
-    res.send("Error fetching match list");
+    res.status(500).send("Error fetching match list");
   }
 });
+
 
 module.exports = router;

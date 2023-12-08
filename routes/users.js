@@ -184,7 +184,7 @@ router.post("/login/check", async (req, res) => {
   const finduser = await User.find({ id: id });
   console.log(finduser);
 
-  // 아이디가 존재하지 않은 경우
+  // 아이디가 존재하지 않은 경우ss
   if(finduser.length === 0) {
     res.json({ type: 'no_id' });
   } else {
