@@ -290,7 +290,7 @@ body {
 }
 
 .header {
-  padding: 30px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -300,10 +300,11 @@ h2 {
 }
 
 .warning {
-    margin: 2em auto;
-    padding:2em;
-    border-radius: 30px 60px/60px 30px;
-    border: solid 8px #006f3e;
+    margin: 50px ;
+    padding:30px;
+    border-radius: 60px 60px/60px 60px;
+    border: solid 5px #006f3e;
+    position:center;
 }
 
 .checkbox-wrapper input {
@@ -353,3 +354,5 @@ button:hover {
     display: inline-block;
     align-items: center;
     vertical-align: middle; } */
+
+

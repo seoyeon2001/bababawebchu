@@ -113,6 +113,7 @@ router.get("/read/:id", async (req, res, next) => {
       html = html.replace('{{match.price}}', `${result.price}원`);
       html = html.replace('{{match.gender}}', genderKor(result.gender));
       html = html.replace('{{match.content}}', result.content);
+      html = html.replace('{{match.matchDate}}', formatCreatedAt(result.matchDate));
 
       // 클라이언트에 HTML 응답 전송
       res.send(html);

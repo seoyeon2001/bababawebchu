@@ -48,11 +48,12 @@
 
   <div class="container">
     <div class="header">
-        <h2>매치 글 작성</h2>
+      <h2 class="text-center mt-5 fw-bold ">매치글 작성</h2>
     </div>
-    <div class="warning">
-        <h1>주의 사항</h1>
-        <br>팡팡은 누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티 이용규칙을 제정하여 운영하고 있습니다. 
+    <div class="warning " style="margin: 0 250px;">
+        <h3 class="mt-5 fw-bold ">주의 사항</h3>
+        <br>팡팡은 누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 
+        <br>커뮤니티 이용규칙을 제정하여 운영하고 있습니다. 
         <br>위반 시 게시물이 삭제됩니다.
         <br>아래는 이 게시판에 해당하는 핵심 내용입니다.
         <br>1. 게시물에 대한 권리와 책임은 게시물을 등록한 회원에게 있습니다.
@@ -66,7 +67,9 @@
             <label for="agree">위 사항을 모두 확인했습니다.</label>
         </div>
     </div>
-    <div class="write">
+    <br/>
+    <br/>
+    <div class="write" style="margin: 0 250px;">
       <form action="/match/write" method="post">
               
         <input type="text" id="title" name="title" placeholder="제목" required>
@@ -89,13 +92,14 @@
       
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
           <button value='findsportmate' type="submit">글 작성</button>
-          <button type="reset">취소</button> 
+          <button type="reset" onclick="window.location.href='/match'">취소</button> 
         </div>
         
     </form>
     </div> 
   </div>
-
+  <br/>
+  <br/>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
             checkAuthentication(); // 페이지 로드 시 토큰 확인
