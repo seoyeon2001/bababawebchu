@@ -31,7 +31,7 @@
         </div>
       </div>
     
-    
+  
 
     <!--사이드바 -->
     <div id="page-wrapper">
@@ -50,8 +50,172 @@
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
-  
-    <p>커뮤니티 메인 페이지</p>
+
+
+      <!--게시글 리스트-->
+      <div class="container-fluid  p-5">
+        <h2 class="text-center mt-5 fw-bold ">커뮤니티</h2>
+        <div class="mt-5 pt-5">
+          <div class="container-fluid p-5 me-5 mr-5list-container">
+            <div class="card mb-1 p-3">
+              <div class="card-header">
+                <a class="btn btn-primary float-end" href="/community/write_board" style="background-color: #006f3e; color: white;"> 
+                  <i class="fas fa-edit"></i> 글 작성
+                </a>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>카테고리</th>
+                      <th>제목</th>
+                      <th>작성자</th>
+                      <th>작성일</th>
+                    </tr>
+                  </thead>
+                  <tbody id="communityTableBody">
+                  <!-- 여기에 게시글 목록이 추가됨 -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 페이지네이션 -->
+    <div class="pagination justify-content-center mt-4" id="pagination">
+      <!-- 여기에 페이지 버튼들이 추가  -->
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    
+
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  </body>
+    <script>
+    const tbody = document.querySelector('tbody');
+    const paginationDiv = document.getElementById('pagination');
+
+    //매치 리스트 가져오기
+    fetch('/community/list')
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.getElementById('communityTableBody');
+        data.boards.forEach((community, index) => {
+          const row = document.createElement('tr');
+          const formattedDate = new Date(community.createdAt).toLocaleDateString();
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${community.category}</td>
+            <td>${community.title}</td>
+            <td>${community.writer}</td>
+            <td>${formattedDate}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+
+
+    //페이지네이션
+    const ITEMS_PER_PAGE = 10;
+
+    function createPaginationButtons(totalPages, currentPage) {
+      paginationDiv.innerHTML = ''; // 이전 버튼 초기화
+
+      const prevButton = document.createElement('button');
+      prevButton.innerHTML = `
+        <span aria-hidden="true">&laquo;</span>
+        <span class="visually-hidden">Previous</span>
+      `;
+      prevButton.classList.add('btn', 'btn-outline-secondary', 'me-2');
+      prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+          fetchData(currentPage - 1);
+        }
+      });
+      paginationDiv.appendChild(prevButton);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.innerText = i;
+        pageButton.classList.add('btn', 'btn-outline-secondary', 'me-2');
+        if (i === currentPage) {
+          pageButton.classList.add('btn-custom');
+        }
+        pageButton.addEventListener('click', () => {
+          fetchData(i);
+        });
+        paginationDiv.appendChild(pageButton);
+      }
+
+      const nextButton = document.createElement('button');
+      nextButton.innerHTML = `
+        <span aria-hidden="true">&raquo;</span>
+        <span class="visually-hidden">Next</span>
+      `;
+      nextButton.classList.add('btn', 'btn-outline-secondary');
+      nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          fetchData(currentPage + 1);
+        }
+      });
+      paginationDiv.appendChild(nextButton);
+    }
+
+    // 
+    function getCategoryInKorean(category) {
+      switch(category) {
+        case 'popular':
+          return '인기';
+        case 'daily':
+          return '일일';
+        case 'equipment':
+          return '장비';
+        case 'tip':
+          return '꿀팁';
+        case 'market':
+          return '장터';
+        case 'promotion':
+          return '홍보';
+        default:
+          return category;
+      }
+    }
+
+    function fetchData(page) {
+      fetch(`/community/list?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+          tbody.innerHTML = ''; // 테이블 초기화
+
+          data.boards.forEach((community, index) => {
+            const row = document.createElement('tr');
+            const formattedDate = new Date(community.createdAt).toLocaleDateString();
+            row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${getCategoryInKorean(community.category)}</td>
+            <td>${community.title}</td>
+            <td>${community.writer}</td>
+            <td>${formattedDate}</td>
+            `;
+            row.addEventListener('click', () => {
+              // 글 상세 페이지로 이동
+              window.location.href = `/community/read/${community._id}`;
+            });
+            tbody.appendChild(row);
+          });
+
+          createPaginationButtons(data.totalPages, data.currentPage);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+// 초기 데이터 로딩
+fetchData(1);
+
+</script>
+</body>
 </html>

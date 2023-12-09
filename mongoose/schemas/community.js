@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const boardSchema = new Schema({
+const communitySchema = new Schema({
     writer : { // 유저 아이디
         type : String,
         required : true,
-    },
-    id: { //게시글 번호
-        type : String,
-        required : true
     },
     title: { // 제목
         type : String,
@@ -16,7 +12,7 @@ const boardSchema = new Schema({
     },
     content : { // 내용
         type : String,
-        required : true
+       
     },
     createdAt:{ // 글을 작성한 날짜 
         type : Date,
@@ -31,12 +27,13 @@ const boardSchema = new Schema({
         type : Date,
         default : Date.now
     },
-    category:{
+    category: {
         type: String,
-        enum: ['popular', 'daily','equipment','tip','market','promotion']    
-    }
+        enum: ['popular', 'daily', 'equipment', 'tip', 'market', 'promotion'],
+        required: true
+      }
 })
  
-const Board = mongoose.model('Board', boardSchema);
+const Community = mongoose.model('Community', communitySchema);
  
-module.exports = Board;
+module.exports = Community;
