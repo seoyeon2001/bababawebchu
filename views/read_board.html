@@ -17,7 +17,22 @@
             .catch(error => console.error('Error:', error));
         
       </script>
-  </head>
+      <style>
+        /* 셀에 선을 추가하고 간격을 조정합니다. */
+        td {
+          padding: 8px; /* 내용과의 간격을 조정합니다 */
+          padding-left: 20px; 
+        }
+      
+        /* 제목 셀의 스타일 */
+        th {
+          
+          font-weight: bold; /* 텍스트를 굵게 설정 */
+          text-align: center; /* 텍스트 가운데 정렬 */
+        }
+      </style>
+    </head>
+  
   <body>
     <!-- 네비게이션바 -->
     <div id='content'></div>
@@ -27,7 +42,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">         
-          <i class="bi bi-house-fill"> / 커뮤니티 </i>
+          <i class="bi bi-house-fill"> > 커뮤니티 </i>
         </div> 
       </div>
     </div>
@@ -52,43 +67,189 @@
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
 
       
-    <div class="container w-50">
-        <h3 class="mb-3">게시판 글보기</h3>
-        <div class="container">
-            <div class="d-flex justify-content-md-between mb-3">
-                <p>작성일: 값 받아와야해</p>
-                <div class="btn-group">
-                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/board/modify/<%=result.idx%>">수정</a></li>
-                        <li><a class="dropdown-item" href="/board/delete/<%=result.idx%>">삭제</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="user" class="col-sm-2 col-form-label">글쓴이 : </label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="user">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="title" class="col-sm-2 col-form-label">제목 : </label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="title">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="content" class="col-sm-2 col-form-label">내용 : </label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="content">
-                </div>
-            </div>
+    <!--매치글 조회-->
+    <div class="container" style="margin: 0 auto; width: 65%;">
+      
+      <div class="row">
+        <div class="col">
+            <table class="table table-condensed">
+              
+                    <span style='float:right'>
+                        <a href="/community" class="btn btn-success">목록</a>
+                        <a href="/community/edit" class="btn btn-success">수정</a>
+                        <a href="" class="btn btn-success">삭제</a>
+                        <a href="/community/write" class="btn btn-success">글쓰기</a>
+                    </span>
+            </table>
+            <hr style="border: solid #006f3e;"/>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<a href="/community/tip" class="btn btn-primary">글 목록으로 돌아가기</a>
-		</div>
+      </div>
+      <table class="table table-condensed" >
+          <thead>
+            <tr>
+              <th>제목</th>
+              <td>{{community.title}}</td>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <th>작성자</th>
+              <td>{{community.writer}}</td>
+            </tr>
+            <tr>
+              <th>카테고리</th>
+              <td>{{community.category}}</td>
+            </tr>
+            <tr>
+              <th>내용</th>
+              <td style="height: 200px; overflow: auto;">{{community.content}}</td>
+            </tr>
+            <tr>
+              <th>작성일</th>
+              <td>{{community.createdAt}}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <hr style="border: solid #006f3e;"/>
+        <br/>
         
-    </div>
+        <div id="form-commentInfo" style="text-align: center;">
+          <input id="comment-input" placeholder="댓글을 입력해 주세요.">
+          <button id="commentSubmit" class="btn btn-success">등록</button>
+          <br/>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div id="comment-count" style="width:100%">댓글 <span id="count"></span></div>
+        
+        
+        <table class="table" style="text-align: center;">
+          <thead>
+            <hr>
+            <tr>
+              <th scope="col">댓글 내용</th>
+              <th scope="col">작성자</th>
+            </tr>
+          </thead>
+          <tbody id="showcomment"></tbody>
+        </table>
+        <hr/>
+    </div> 
+    <br/>  
+    <br/> 
+    <br/> 
+    <br/> 
+    <br/>  
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAuthentication(); // 페이지 로드 시 토큰 확인
+        getComment(); // 페이지 로드 시 댓글 로드
+      });
+
+      // 사용자의 인증 여부를 확인하는 함수
+      function checkAuthentication() {
+        const token = sessionStorage.getItem('토큰');
+
+        if (!token) {
+          // 토큰이 없으면 로그인 화면으로 리다이렉트
+          alert('로그인이 필요합니다.');
+          window.location.href = '/users/login'; // 로그인 화면으로 리다이렉트
+        }
+      }
+
+      // 댓글 쓰기
+      document.getElementById('commentSubmit').addEventListener('click', () => {
+        const token = sessionStorage.getItem('토큰');
+        const comment = document.getElementById('comment-input').value;
+        const communityId = window.location.pathname.split('/').pop();
+
+        if (comment === '') {
+          alert('댓글을 입력해 주세요.');
+          return;
+        }
+        
+        fetch("/users/getid", {
+          method: 'GET',
+          headers: {
+            'authorization': `${token}`,
+            'Content-Type': 'application/json'
+          },
+        })
+        .then(response => response.json())
+        .then(data => { 
+          const writer = data.user_id; // 작성자
+          const commentdata = {comment, communityId, writer};
+
+          fetch('/comment/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(commentdata),
+          })
+          .then(response => { return response.json() })
+          .then(data => { 
+            if (data.success) {
+              alert('댓글이 등록되었습니다.');
+              location.reload();
+            } else {
+              alert('댓글 등록에 실패하였습니다.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    
+      function getComment() {
+        const communityId = window.location.pathname.split('/').pop();
+
+        fetch('/comment/' + communityId, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => { return response.json() })
+        .then(data => { 
+          if (data.success) {
+            const comments = data.comments;
+            const count = comments.length;
+            document.getElementById('count').innerText = count;
+
+            const showcomment = document.getElementById('showcomment'); 
+            showcomment.innerHTML = ''; // 기존 리스트 초기화
+
+            comments.forEach(comment => {
+              const row = document.createElement('tr');
+
+              const commentCell = document.createElement('td');
+              commentCell.textContent = comment.comment;
+              row.appendChild(commentCell);
+
+              const writerCell = document.createElement('td');
+              writerCell.textContent = comment.writer;
+              row.appendChild(writerCell);
+
+              showcomment.appendChild(row);
+              
+            });
+          } else {
+            alert('댓글 로드에 실패하였습니다.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+
+    </script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const communitySchema = new Schema({
+const CommunitySchema = new Schema({
     writer : { // 유저 아이디
         type : String,
         required : true,
@@ -12,7 +12,7 @@ const communitySchema = new Schema({
     },
     content : { // 내용
         type : String,
-       
+        required : true
     },
     createdAt:{ // 글을 작성한 날짜 
         type : Date,
@@ -34,6 +34,6 @@ const communitySchema = new Schema({
       }
 })
  
-const Community = mongoose.model('Community', communitySchema);
+const Community = mongoose.model('Community', CommunitySchema);
  
 module.exports = Community;
