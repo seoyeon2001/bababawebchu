@@ -76,6 +76,11 @@
           </thead>
           <tbody>
             <tr>
+              <th>모집 상태</th>
+              <td>{{match.state}}</td>
+            </tr>
+            <tr>
+            <tr>
               <th>작성자</th>
               <td>{{match.writer}}</td>
             </tr>
@@ -110,13 +115,129 @@
           </tbody>
         </table>
         <div id="form-commentInfo">
-          <div id="comment-count">댓글 <span id="count">0</span></div>
+          <div id="comment-count">댓글 <span id="count"></span></div>
           <input id="comment-input" placeholder="댓글을 입력해 주세요.">
-          <button id="submit" class="btn btn-success">등록</button>
+          <button id="commentSubmit" class="btn btn-success">등록</button>
         </div>
-      <hr/>
+        <hr/>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">댓글 내용</th>
+              <th scope="col">작성자</th>
+            </tr>
+          </thead>
+          <tbody id="showcomment"></tbody>
+        </table>
+        <hr/>
     </div>    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAuthentication(); // 페이지 로드 시 토큰 확인
+        getComment(); // 페이지 로드 시 댓글 로드
+      });
+
+      // 사용자의 인증 여부를 확인하는 함수
+      function checkAuthentication() {
+        const token = sessionStorage.getItem('토큰');
+
+        if (!token) {
+          // 토큰이 없으면 로그인 화면으로 리다이렉트
+          alert('로그인이 필요합니다.');
+          window.location.href = '/users/login'; // 로그인 화면으로 리다이렉트
+        }
+      }
+
+      // 댓글 쓰기
+      document.getElementById('commentSubmit').addEventListener('click', () => {
+        const token = sessionStorage.getItem('토큰');
+        const comment = document.getElementById('comment-input').value;
+        const matchId = window.location.pathname.split('/').pop();
+
+        if (comment === '') {
+          alert('댓글을 입력해 주세요.');
+          return;
+        }
+        
+        fetch("/users/getid", {
+          method: 'GET',
+          headers: {
+            'authorization': `${token}`,
+            'Content-Type': 'application/json'
+          },
+        })
+        .then(response => response.json())
+        .then(data => { 
+          const writer = data.user_id; // 작성자
+          const commentdata = {comment, matchId, writer};
+
+          fetch('/comment/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(commentdata),
+          })
+          .then(response => { return response.json() })
+          .then(data => { 
+            if (data.success) {
+              alert('댓글이 등록되었습니다.');
+              location.reload();
+            } else {
+              alert('댓글 등록에 실패하였습니다.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    
+      function getComment() {
+        const matchId = window.location.pathname.split('/').pop();
+
+        fetch('/comment/' + matchId, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => { return response.json() })
+        .then(data => { 
+          if (data.success) {
+            const comments = data.comments;
+            const count = comments.length;
+            document.getElementById('count').innerText = count;
+
+            const showcomment = document.getElementById('showcomment'); 
+            showcomment.innerHTML = ''; // 기존 리스트 초기화
+
+            comments.forEach(comment => {
+              const row = document.createElement('tr');
+
+              const commentCell = document.createElement('td');
+              commentCell.textContent = comment.comment;
+              row.appendChild(commentCell);
+
+              const writerCell = document.createElement('td');
+              writerCell.textContent = comment.writer;
+              row.appendChild(writerCell);
+
+              showcomment.appendChild(row);
+              
+            });
+          } else {
+            alert('댓글 로드에 실패하였습니다.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+
+    </script>
   </body>
 </html>

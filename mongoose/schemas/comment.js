@@ -6,7 +6,7 @@ const commentSchema = new Schema({
         type : String,
         required : true,
     },
-    content : { // 내용
+    comment : { // 내용
         type : String,
         required : true
     },
@@ -15,16 +15,13 @@ const commentSchema = new Schema({
         default : Date.now,
         required : true
     },
-    // id: { //댓글 번호
-    //     type : String,
-    //     required : true
-    // },
-
-    
+    matchId:{ // 매치 글 번호
+        type : String,
+        // type: mongoose.Schema.Types.ObjectId,
+        required : true
+    },
 })
  
- 
- 
- const Comment = mongoose.model('Comment', commentSchema);
- 
- module.exports =  Comment;
+const Comment = mongoose.model('Comment', commentSchema);
+
+module.exports =  Comment;
