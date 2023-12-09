@@ -10,6 +10,7 @@ const communityRouter = require("./routes/community");
 const matchRouter = require("./routes/match");
 const infoRouter = require("./routes/info");
 const helpRouter = require("./routes/help");
+const commentRouter = require("./routes/comment"); 
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use("/community", communityRouter);
 app.use("/match", matchRouter);
 app.use("/info", infoRouter);
 app.use("/help", helpRouter);
+app.use("/comment", commentRouter);
 
 
 // catch 404 and forward to error handler
