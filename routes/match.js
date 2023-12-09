@@ -104,6 +104,7 @@ router.get("/read/:id", async (req, res, next) => {
 
       // 데이터를 HTML에 삽입
       html = html.replace('{{match.title}}', result.title);
+      html = html.replace('{{match.state}}', result.state);
       html = html.replace('{{match.writer}}', result.writer);
       html = html.replace('{{match.createdAt}}', formatCreatedAt(result.createdAt));
       html = html.replace('{{match.sport}}', result.sport);
