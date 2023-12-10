@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+    <title>PangPang</title>
+    <script>      
+      fetch('/navbar')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("content").innerHTML = data;
+                // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
+                const token = sessionStorage.getItem('토큰');
+                if (token) {
+                    document.getElementById("logoutButton").style.display = "block";
+                } else {
+                    document.getElementById("logoutButton").style.display = "none";
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+    <style>
+      .sport_content{
+        margin-left: 200px; /* 좌측 마진 */
+        margin-right: 200px; /* 우측 마진 */
+      }
+
+      .table_wrap table{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #006f3e;
+        border-collapse: collapse; /* 테이블 셀 경계를 겹치도록 설정 */
+        width: 100%;
+        border-spacing: 0;
+        table-layout: fixed;
+        border-right: 1px solid #006f3e;
+        
+      }
+      
+      th, td{
+        border: 1px solid #006f3e;
+      }
+
+      .s_list{
+        display: flex;
+        margin-bottom: 70px;
+        border: 2px solid #006f3e;
+        border-radius: 10px;
+        padding: 50px;
+        padding-bottom: 20px;
+      }
+      .btn {
+        background-color: #006f3e;
+        color: white;
+        padding: 10px 15px;
+        margin-top: 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        
+      }
+      
+      .s_inner {
+    
+        margin-left: 30px; /* 이미지와 표 사이 여백 */
+      }
+      .btn_area {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px; /* 버튼과 내용 사이 여백 */
+      }
+      .category{
+        text-align: center;
+      }
+      .content_tit {
+        font-weight: bold; /* 글씨를 두껍게 설정 */
+        font-size: 20px;
+      }
+
+      .btn-custom {
+        font-size: 20px;
+        background-color: white;
+        color: #006f3e;
+        padding: 10px 15px;
+        margin-top: 10px;
+        margin-left: 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        border: 2px solid #006f3e;
+      }
+      .btn-custom:hover {
+        color: white;
+        background-color: #006f3e;
+        
+      }
+      .btn-on{
+        font-size: 20px;
+        color: white;
+        background-color: #006f3e;
+        padding: 10px 15px;
+        margin-top: 10px;
+        margin-left: 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        border: 2px solid #006f3e;
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <!-- 네비게이션바 -->
+    <div id='content'></div>
+    
+    
+    <!--빵 부스러기 (Breadcrumb)-->
+    <main class="mt-3 pt-1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+           
+            <i class="bi bi-house-fill"> > 매치 > 경기장 정보</i>
+          </div> 
+        </div>
+      </div>
+    
+    </main>
+    
+
+    <!--사이드바 -->
+    <div id="page-wrapper">
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="/match" style="font-size: 1.5em;">매치</a>
+          </li>
+          <br>
+          <li><a href="/match">전체 매치</a></li>
+          <li><a href="/match/write">매치 게시물 작성</a></li>
+          <li><a href="/info/stadium" class="underline-on">경기장 정보</a></li>
+        </ul>
+      </div>
+      <hr class="my-4" style="height: 3px; background-color: #006f3e;">
+      <br>
+      <br>
+      <div class="category">
+        <a href="/stadium" class="btn-custom">축구장</a>
+        <a href="/stadium/baseball" class="btn-custom">야구장</a>
+        <a href="/stadium/tennis" class="btn-custom">테니스장</a>
+        <a href="/stadium/futsal" class="btn-on">풋살장</a>
+        <a href="/stadium/foot" class="btn-custom">족구장</a>
+        <a href="/stadium/all" class="btn-custom">다목적구장</a>
+      </div>
+      <br>
+      <h3 class="text-center mt-5 fw-bold ">풋살장</h3>
+      <br>
+
+      <!--경기장 정보-->
+      <div class="sport_content">
+        <!-- s_list -->
+        <div class="s_list">
+            <div class="img_area">
+                <img src="https://reservation.nowonsc.kr/images/sub/list_img10.jpg" alt="불암산풋살장">
+            </div>
+            <div class="s_inner">
+                <p class="content_tit">불암산스포츠타운 풋살장</p>
+                <!-- table_wrap -->
+                <div class="table_wrap">
+                    <table>
+                        <colgroup>
+                            <col class="col3">
+                            <col>
+                            <col class="col3">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">주소</th>
+                                <td colspan="3">(01793) 노원구 중계로 36</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">전화</th>
+                                <td>02)2289-6855</td>
+                                <th scope="row">운영시간</th>
+                                <td>06:00~22:00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">규모</th>
+                                <td>면적:1,134㎡ / 규격:42m×27m</td>
+                                <th scope="row">코트재질</th>
+                                <td>인조잔디</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">주요시설</th>
+                                <td colspan="3">풋살골대, 조명탑</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- //table_wrap -->
+                <div class="btn_area">
+                    <a href="https://reservation.nowonsc.kr/sports/reserve_date?cate1=10&amp;cate2=108" class="btn">대관신청</a>
+                    <a href="https://reservation.nowonsc.kr/sports/reserve_state?cate1=10&amp;cate2=108" class="btn form02">대관현황</a>
+                    <a href="https://reservation.nowonsc.kr/sports/futsal_use?cate2=15" class="btn form02">이용안내</a>
+                </div>
+            </div>
+        </div>
+        <!-- //s_list -->
+        <!-- s_list -->
+        <div class="s_list">
+            <div class="img_area">
+                <img src="https://reservation.nowonsc.kr/images/sub/list_img11.jpg" alt="초안산풋살장">
+            </div>
+            <div class="s_inner">
+                <p class="content_tit">초안산스포츠타운 풋살장</p>
+                <!-- table_wrap -->
+                <div class="table_wrap">
+                    <table>
+                        <colgroup>
+                            <col class="col3">
+                            <col>
+                            <col class="col3">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">주소</th>
+                                <td colspan="3">(01866) 노원구 마들로 5가길 113</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">전화</th>
+                                <td>02)2289-6855</td>
+                                <th scope="row">운영시간</th>
+                                <td>06:00~22:00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">규모</th>
+                                <td>면적:720㎡ / 규격:20m×36m	</td>
+                                <th scope="row">코트재질</th>
+                                <td>인조잔디</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">주요시설</th>
+                                <td colspan="3">풋살골대, 안전매트</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- //table_wrap -->
+                <div class="btn_area">
+                    <a href="https://reservation.nowonsc.kr/sports/reserve_date?cate1=10&amp;cate2=109" class="btn">대관신청</a>
+                    <a href="https://reservation.nowonsc.kr/sports/reserve_state?cate1=10&amp;cate2=109" class="btn form02">대관현황</a>
+                    <a href="https://reservation.nowonsc.kr/sports/futsal_use?cate2=17" class="btn form02">이용안내</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
