@@ -98,25 +98,25 @@
     const tbody = document.querySelector('tbody');
     const paginationDiv = document.getElementById('pagination');
 
-    //매치 리스트 가져오기
-    fetch('/community/list')
-      .then(response => response.json())
-      .then(data => {
-        const tbody = document.getElementById('communityTableBody');
-        data.boards.forEach((community, index) => {
-          const row = document.createElement('tr');
-          const formattedDate = new Date(community.createdAt).toLocaleDateString();
-          row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${community.category}</td>
-            <td>${community.title}</td>
-            <td>${community.writer}</td>
-            <td>${formattedDate}</td>
-          `;
-          tbody.appendChild(row);
-        });
-      })
-      .catch(error => console.error('Error:', error));
+    // //매치 리스트 가져오기
+    // fetch('/community/list')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     const tbody = document.getElementById('communityTableBody');
+    //     data.boards.forEach((community, index) => {
+    //       const row = document.createElement('tr');
+    //       const formattedDate = new Date(community.createdAt).toLocaleDateString();
+    //       row.innerHTML = `
+    //         <td>${index + 1}</td>
+    //         <td>${community.category}</td>
+    //         <td>${community.title}</td>
+    //         <td>${community.writer}</td>
+    //         <td>${formattedDate}</td>
+    //       `;
+    //       tbody.appendChild(row);
+    //     });
+    //   })
+    //   .catch(error => console.error('Error:', error));
 
 
     //페이지네이션

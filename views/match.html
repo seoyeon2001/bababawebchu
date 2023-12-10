@@ -47,43 +47,41 @@
 
     <!--게시글 리스트-->
     <div style="margin: 0 auto; width: 90%;">
-      <div class="container-fluid  p-5"  >
+      <div class="container-fluid  p-5">
         <h2 class="text-center mt-5 fw-bold ">매치글</h2>
-       
-          <div class="container-fluid p-5 me-5 mr-5list-container ">
-            <div class="card mb-1 p-3"  style="border: 3px solid #006f3e;">
-              <div class="card-header">
-                <a class="btn btn-primary float-end" href="/match/write" style="background-color: #006f3e; color: white;"> 
-                  <i class="fas fa-edit"></i> 글 작성
-                </a>
-              </div>
-              <div class="card-body">
-                <table class="table table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>번호</th>
-                      <th>모집 상태</th>
-                      <th>매치일</th>
-                      <th>운동종목</th>
-                      <th>제목</th>
-                      <th>작성일</th>
-                    </tr>
-                  </thead>
-                  <tbody id="matchTableBody">
-                  <!-- 여기에 게시글 목록이 추가됨 -->
-                  </tbody>
-                </table>
-              </div>
+        <div class="container-fluid p-5 me-5 mr-5list-container ">
+          <div class="card mb-1 p-3"  style="border: 3px solid #006f3e;">
+            <div class="card-header">
+              <a class="btn btn-primary float-end" href="/match/write" style="background-color: #006f3e; color: white;"> 
+                <i class="fas fa-edit"></i> 글 작성
+              </a>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>번호</th>
+                    <th>모집 상태</th>
+                    <th>매치일</th>
+                    <th>운동종목</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                  </tr>
+                </thead>
+                <tbody id="matchTableBody">
+                <!-- 여기에 게시글 목록이 추가됨 -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
+    </div>
   
     <!-- 페이지네이션 -->
     <div class="pagination justify-content-center" id="pagination" >
       <!-- 여기에 페이지 버튼들이 추가  -->
     </div>
-  </div>
     <br/>
     <br/>
     <br/>
@@ -93,28 +91,28 @@
       const tbody = document.querySelector('tbody');
       const paginationDiv = document.getElementById('pagination');
 
-      //매치 리스트 가져오기
-      fetch('/match/list')
-        .then(response => response.json())
-        .then(data => {
-          const tbody = document.getElementById('matchTableBody');
-          data.boards.forEach((matches, index) => {
-            const row = document.createElement('tr');
-            const matchDate = new Date(matches.matchDate).toLocaleDateString();
-            const createDate = new Date(matches.createdAt).toLocaleDateString();
-            row.innerHTML = `
-              <td>${index + 1}</td>
-              <td>${matches.state}</td>
-              <td>${matchDate}</td>
-              <td>${matches.sport}</td>
-              <td>${matches.title}</td>
-              <td>${createDate}</td>
+      // //매치 리스트 가져오기
+      // fetch('/match/list')
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     const tbody = document.getElementById('matchTableBody');
+      //     data.boards.forEach((matches, index) => {
+      //       const row = document.createElement('tr');
+      //       const matchDate = new Date(matches.matchDate).toLocaleDateString();
+      //       const createDate = new Date(matches.createdAt).toLocaleDateString();
+      //       row.innerHTML = `
+      //         <td>${index + 1}</td>
+      //         <td>${matches.state}</td>
+      //         <td>${matchDate}</td>
+      //         <td>${matches.sport}</td>
+      //         <td>${matches.title}</td>
+      //         <td>${createDate}</td>
               
-            `;
-            tbody.appendChild(row);
-          });
-        })
-        .catch(error => console.error('Error:', error));
+      //       `;
+      //       tbody.appendChild(row);
+      //     });
+      //   })
+      //   .catch(error => console.error('Error:', error));
 
 
       //페이지네이션
@@ -196,6 +194,6 @@
 // 초기 데이터 로딩
 fetchData(1);
 
-  </script>
+    </script>
   </body>
 </html>

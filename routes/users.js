@@ -232,5 +232,29 @@ router.post("/login/check", async (req, res) => {
 
 });
 
+router.get("/match/:id", async (req, res) => {
+  fs.readFile("./views/my_match.html", (err, data) => {
+    if (err) {
+      res.send("error");
+    } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+    }
+  });  
+});
+
+router.get("/community/:id", async (req, res) => {
+  fs.readFile("./views/my_community.html", (err, data) => {
+    if (err) {
+      res.send("error");
+    } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+    }
+  });  
+});
+
 
 module.exports = router;

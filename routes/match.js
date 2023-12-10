@@ -128,7 +128,8 @@ router.get("/read/:id", async (req, res, next) => {
 
 const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
 
-router.get("/list", async function (req, res, next) {
+router.get("/list", async (req, res, next) => {
+  console.log('전체 리스트틀 불러옵니다.')
   try {
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
@@ -145,6 +146,38 @@ router.get("/list", async function (req, res, next) {
     // JSON 데이터를 먼저 클라이언트에게 반환합니다.
     res.json({ 
       boards: matchList, // matchList를 'boards'라는 이름으로 반환합니다.
+      currentPage: page,
+      hasNextPage: ITEMS_PER_PAGE * page < totalMatches,
+      hasPrevPage: page > 1,
+      nextPage: page < totalPages ? page + 1 : null,
+      prevPage: page > 1 ? page - 1 : null,
+      totalPages: totalPages,
+    });
+  } catch (err) {
+    console.error("Error fetching match list:", err);
+    res.status(500).send("Error fetching match list");
+  }
+});
+
+router.get("/list/:userid", async (req, res, next) => {
+  console.log('내가 쓴 글 리스트를 불러옵니다.')
+  try {
+    const userid = req.params.userid;
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+
+    const totalMatches = await Match.countDocuments();
+    const totalPages = Math.ceil(totalMatches / ITEMS_PER_PAGE);
+
+    const myList = await Match.find({writer: userid})
+      .sort({ createdAt: -1 })
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
+    console.log("Match list fetched:", myList);
+
+    // JSON 데이터를 먼저 클라이언트에게 반환합니다.
+    res.json({ 
+      boards: myList, // myList 'boards'라는 이름으로 반환합니다.
       currentPage: page,
       hasNextPage: ITEMS_PER_PAGE * page < totalMatches,
       hasPrevPage: page > 1,

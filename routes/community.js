@@ -23,6 +23,7 @@ router.get("/", function (req, res, next) {
     }
   });
 });
+
 /* GET community write page. */
 router.get("/write", async (req, res, next) => {
   fs.readFile("./views/write_board.html", (err, data) => {
@@ -35,7 +36,6 @@ router.get("/write", async (req, res, next) => {
     }
   });
 });  
-
 
 router.post("/write", verifyToken, async (req, res, next) => {
   const userid = req.decoded.id;
@@ -87,6 +87,7 @@ function categoryKor(gender) {
     return '홍보';
   }
 }
+
 /* GET board page. */
 router.get("/popular", function (req, res, next) {
   fs.readFile("./views/popular_board.html", (err, data) => {
@@ -101,63 +102,63 @@ router.get("/popular", function (req, res, next) {
 });
 
 router.get("/daily", function (req, res, next) {
-    fs.readFile("./views/daily_board.html", (err, data) => {
-        if (err) {
-        res.send("error");
-        } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        res.end();
-        }
-    });
+  fs.readFile("./views/daily_board.html", (err, data) => {
+    if (err) {
+    res.send("error");
+    } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+    }
+  });
 });
 
 router.get("/equipment", function (req, res, next) {
-    fs.readFile("./views/equipment_board.html", (err, data) => {
-        if (err) {
-        res.send("error");
-        } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        res.end();
-        }
-    });
+  fs.readFile("./views/equipment_board.html", (err, data) => {
+    if (err) {
+    res.send("error");
+    } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+    }
+  });
 });
 
 router.get("/tip", function (req, res, next) {
-    fs.readFile("./views/tip_board.html", (err, data) => {
-        if (err) {
-        res.send("error");
-        } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        res.end();
-        }
-    });
+  fs.readFile("./views/tip_board.html", (err, data) => {
+    if (err) {
+    res.send("error");
+    } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+    }
+  });
 });
 
 router.get("/market", function (req, res, next) {
-    fs.readFile("./views/market_board.html", (err, data) => {
-        if (err) {
-        res.send("error");
-        } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        res.end();
-        }
-    });
+  fs.readFile("./views/market_board.html", (err, data) => {
+    if (err) {
+    res.send("error");
+    } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+    }
+  });
 });
 
 router.get("/promotion", function (req, res, next) {
-    fs.readFile("./views/promotion_board.html", (err, data) => {
-        if (err) {
-        res.send("error");
-        } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        res.end();
-        }
-    });
+  fs.readFile("./views/promotion_board.html", (err, data) => {
+    if (err) {
+    res.send("error");
+    } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+    }
+  });
 });
 
 // 커뮤니티 리스트
@@ -192,17 +193,50 @@ router.get("/list", async function (req, res, next) {
     res.status(500).send("Error fetching community list");
   }
 });
+
+
+router.get("/list/:userid", async function (req, res, next) {
+  try {
+    const userid = req.params.userid;
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+
+    const totalCommunities = await Community.countDocuments();
+    const totalPages = Math.ceil(totalCommunities / ITEMS_PER_PAGE);
+
+    const communityList = await Community.find({writer:userid})
+      .sort({ createdAt: -1 })
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
+    console.log("Community list fetched:", communityList);
+
+    // JSON 데이터를 먼저 클라이언트에게 반환합니다.
+    res.json({ 
+      boards: communityList, // communityList를 'boards'라는 이름으로 반환합니다.
+      currentPage: page,
+      hasNextPage: ITEMS_PER_PAGE * page < totalCommunities,
+      hasPrevPage: page > 1,
+      nextPage: page < totalPages ? page + 1 : null,
+      prevPage: page > 1 ? page - 1 : null,
+      totalPages: totalPages,
+    });
+  } catch (err) {
+    console.error("Error fetching community list:", err);
+    res.status(500).send("Error fetching community list");
+  }
+});
+
+
 router.get("/write_board", function (req, res, next) {
   fs.readFile("./views/write_board.html", (err, data) => {
-      if (err) {
-      res.send("error");
-      } else {
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.write(data);
-      res.end();
-      }
+    if (err) {
+    res.send("error");
+    } else {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+    }
   });
 });
   
-
 module.exports = router;
