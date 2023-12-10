@@ -44,7 +44,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <i class="bi bi-house-fill"> > 마이페이지</i>
+            <i class="bi bi-house-fill"> > 마이페이지 > 내 커뮤닡니글 보기</i>
           </div> 
         </div>
       </div>
@@ -56,13 +56,13 @@
         <ul class="sidebar-nav">
           <li class="sidebar-brand">
             <a href="/users" style="font-size: 1.5em;">마이페이지</a>
-            <a href="/users/match/${id}" style="font-size: 1.5em;">내 매치글 보기</a>
-            <a href="/users/community/${id}" style="font-size: 1.5em;">내 커뮤니티글 보기</a>
-            <br>
-            <br>
-            <br>
-            <button type="button" onclick="deleteAccount()" class="btn" style="color: white; background-color: #006f3e;">탈퇴</button>
           </li>
+            <br>
+            <li><a href="/users/match/${id}">내 매치글 보기</a></li>
+            <li><a href="/users/community/${id}"  class="underline-on">내 커뮤니티글 보기</a></li>
+            <br>
+            <br>
+            <br>
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">

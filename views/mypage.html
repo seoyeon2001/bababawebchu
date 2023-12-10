@@ -55,19 +55,21 @@
       <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
           <li class="sidebar-brand">
-            <a href="/users" style="font-size: 1.5em;">마이페이지</a>
-            <a href="/users/match/${id}" style="font-size: 1.5em;">내 매치글 보기</a>
-            <a href="/users/community/${id}" style="font-size: 1.5em;">내 커뮤니티글 보기</a>
-            <br>
-            <br>
-            <br>
-            <button type="button" onclick="deleteAccount()" class="btn" style="color: white; background-color: #006f3e;">탈퇴</button>
+            <a href="/users"  class="underline-on" style="font-size: 1.5em;">마이페이지</a>
           </li>
+          <br>
+            <li><a href="/users/match/${id}">내 매치글 보기</a></li>
+            <li><a href="/users/community/${id}" >내 커뮤니티글 보기</a></li>
+            <br>
+            <br>
+            <br>
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
-
-      <main class="mypagecontent">
+      <h2 class="text-center mt-5 fw-bold ">개인정보 수정</h2>
+      <br>
+      <br>
+      <main class="mypagecontent" style="border: 3px solid #006f3e;">
         <!-- 아이디 정보 -->
         <div>아이디</div>
         <div id="user-id"></div>
@@ -88,8 +90,17 @@
           <div id="check"></div>
         </form>
         <button type="button" id="changebutton" onclick="updatePassword()" class="btn btn-success" disabled>비밀번호 수정</button>
-      </main>        
-
+      </main>  
+      <br> 
+      <br> 
+      <br> 
+      <br> 
+      <div style="display: flex; justify-content: flex-end; margin-right: 430px;">
+        <button type="button" onclick="deleteAccount()" class="btn" style="color: white; background-color: #006f3e;">계정 탈퇴</button>
+    </div>
+    <br>
+    <br>
+    <br>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   
     <script>
