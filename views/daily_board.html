@@ -12,10 +12,18 @@
     <title>PangPang</title>
     <script>      
       fetch('/navbar')
-        .then(response => {return response.text()})
-          .then(data => {document.getElementById("content").innerHTML = data;})
-          .catch(error => console.error('Error:', error));
-      
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("content").innerHTML = data;
+                // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
+                const token = sessionStorage.getItem('토큰');
+                if (token) {
+                    document.getElementById("logoutButton").style.display = "block";
+                } else {
+                    document.getElementById("logoutButton").style.display = "none";
+                }
+            })
+            .catch(error => console.error('Error:', error));
     </script>
   </head>
   
