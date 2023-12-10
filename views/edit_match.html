@@ -1,123 +1,170 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
-  <title>PangPang</title>
-  <script>      
-    fetch('/navbar')
-      .then(response => {return response.text()})
-      .then(data => {document.getElementById("content").innerHTML = data;})
-      .catch(error => console.error('Error:', error));
-  </script>
-</head>
-<body>
-  <!-- 네비게이션바 -->
-  <div id='content'></div>
-  
-  <!--빵 부스러기 (Breadcrumb)-->
-  <main class="mt-3 pt-1">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <i class="bi bi-house-fill"> / 매치 / 전체 매치</i>
-        </div> 
-      </div>
-    </div>
-  </main>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+    <title>Edit Match - PangPang</title>
+  </head>
 
-  <!--사이드바 -->
-  <div id="page-wrapper">
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-          <a href="/match" style="font-size: 1.5em;">매치</a>
-        </li>
-        <li><a href="/match" class="underline-on">전체 매치</a></li>
-        <li><a href="/match/write">매치 게시물 작성</a></li>
-        <li><a href="/info/stadium">경기장 정보</a></li>
-      </ul>
-    </div>
-    <hr class="my-4" style="height: 3px; background-color: #006f3e;">
+  <body>
+    <!-- 네비게이션바 -->
+    <div id='content'></div>
     
-    <!--매치글 수정 폼-->
-<div class="container">
-    <hr/>
-    <div class="row">
-        <div class="col-md-10">
-            <form id="editForm" action="/match/edit/{{match.id}}" method="post">
-                <div class="mb-3 row">
-                  <label for="title" class="col-sm-2 col-form-label">제목</label>
-                  <div class="col-sm-10">
-                  <input type="text" class="form-control" id="title" name="title" value="{{ match.title }}">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="writer" class="col-sm-2 col-form-label">작성자</label>
-                <div class="col-sm-10">
-                  <span>{{ match.writer }}</span>
-                </div>
-              </div>
-            <div class="mb-3 row">
-              <label for="createdAt" class="col-sm-2 col-form-label">작성일</label>
-              <div class="col-sm-10">
-                <span>{{ match.createdAt }}</span>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="sport" class="col-sm-2 col-form-label">종목</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="sport" name="sport" value="{{ match.sport }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="location" class="col-sm-2 col-form-label">장소</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="location" name="location" value="{{ match.location }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="people" class="col-sm-2 col-form-label">모집인원</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="people" name="people" value="{{ match.people }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="price" class="col-sm-2 col-form-label">참가비</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="price" name="price" value="{{ match.price }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="gender" class="col-sm-2 col-form-label">성별</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="gender" name="gender" value="{{ match.gender }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="content" class="col-sm-2 col-form-label">내용</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="content" name="content" value="{{ match.content }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <div class="col-sm-2"></div> <!-- 버튼들을 입력 필드와 동일한 너비로 정렬하기 위한 빈 열 -->
-              <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">저장</button>
-                <a href="/match/read" class="btn btn-secondary">취소</a>
-              </div>
+    <!--빵 부스러기 (Breadcrumb)-->
+    <main class="mt-3 pt-1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <i class="bi bi-house-fill"> / 매치 / 전체 매치</i>
+          </div> 
+        </div>
+      </div>
+    </main>
+
+    <!--사이드바 -->
+    <div id="page-wrapper">
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="/match" style="font-size: 1.5em;">매치</a>
+          </li>
+          <li><a href="/match" class="underline-on">전체 매치</a></li>
+          <li><a href="/match/write">매치 게시물 작성</a></li>
+          <li><a href="/info/stadium">경기장 정보</a></li>
+        </ul>
+      </div>
+      <hr class="my-4" style="height: 3px; background-color: #006f3e;">
+
+      <!-- 수정 폼 -->
+      <div class="container mt-3">
+        <form id="editForm">
+          <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" name="title" required>
           </div>
+          <div class="mb-3">
+            <label for="state" class="form-label">모집 상태</label>
+            <input type="text" class="form-control" id="state" name="state" required>
+          </div>
+          <div class="mb-3">
+            <label for="writer" class="form-label">작성자</label>
+            <input type="text" class="form-control" id="writer" name="writer" required>
+          </div>
+          <div class="mb-3">
+            <label for="sport" class="form-label">종목</label>
+            <input type="text" class="form-control" id="sport" name="sport" required>
+          </div>
+          <div class="mb-3">
+            <label for="location" class="form-label">장소</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+          </div>
+          <div class="mb-3">
+            <label for="people" class="form-label">모집인원</label>
+            <input type="text" class="form-control" id="people" name="people" required>
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">참가비</label>
+            <input type="text" class="form-control" id="price" name="price" required>
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label">성별</label>
+            <input type="text" class="form-control" id="gender" name="gender" required>
+          </div>
+          <div class="mb-3">
+            <label for="context" class="form-label">내용</label>
+            <input type="text" class="form-control" id="context" name="context" required>
+          </div>
+
+          <button type="submit" class="btn btn-success">저장</button>
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='/match/{{matchId}}'">취소</button>
         </form>
       </div>
     </div>
-    <hr/>
-  </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        fetch('/navbar')
+          .then(response => response.text())
+          .then(data => document.getElementById("content").innerHTML = data)
+          .catch(error => console.error('Error:', error));
+
+        checkAuthentication(); // 페이지 로드 시 토큰 확인
+
+        // 매치 ID를 가져와서 수정 폼에 기존 데이터를 불러오기
+        const matchId = window.location.pathname.split('/').pop();
+        fetch(`/match/${matchId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const match = data.match;
+              populateEditForm(match);
+            } else {
+              alert('매치 정보를 불러오는 데 실패하였습니다.');
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+
+      // 사용자의 인증 여부를 확인하는 함수
+      function checkAuthentication() {
+        const token = sessionStorage.getItem('토큰');
+
+        if (!token) {
+          alert('로그인이 필요합니다.');
+          window.location.href = '/users/login';
+        }
+      }
+
+      // 수정 폼에 기존 데이터를 채우는 함수
+      function populateEditForm(match) {
+        document.getElementById('title').value = match.title;
+        document.getElementById('state').value = match.state;
+        document.getElementById('writer').value = match.writer;
+        document.getElementById('sport').value = match.sport;
+        document.getElementById('location').value = match.location;
+        document.getElementById('people').value = match.people;
+        document.getElementById('price').value = match.price;
+        document.getElementById('gender').value = match.gender;
+        document.getElementById('context').value = match.content;
+      }
+
+      // 수정 폼 제출 시 처리
+      document.getElementById('editForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const token = sessionStorage.getItem('토큰');
+        const matchId = window.location.pathname.split('/').pop();
+
+        const formData = new FormData(this);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+          formDataObject[key] = value;
+        });
+
+        fetch(`/match/edit/${matchId}`, {
+          method: 'PUT',
+          headers: {
+            'authorization': `${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formDataObject),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('매치 정보가 수정되었습니다.');
+              window.location.href = `/match/${matchId}`;
+            } else {
+              alert('매치 정보 수정에 실패하였습니다.');
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+    </script>
+  </body>
 </html>

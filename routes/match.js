@@ -123,7 +123,63 @@ router.get("/read/:id", async (req, res, next) => {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
-});  
+});
+
+/* GET edit match page. */
+router.get('/edit/:id', async (req, res, next) => {
+  const matchId = req.params.id;
+
+  try {
+    const objectId = new ObjectId(matchId);
+    const result = await Match.findOne({ _id: objectId });
+
+    if (result) {
+
+      // HTML 파일을 읽어 데이터를 삽입
+      const htmlFilePath = path.join('views', 'edit_match.html');
+      let html = fs.readFileSync(htmlFilePath, 'utf8');
+
+      // 데이터를 HTML에 삽입
+      html = html.replace('{{match.title}}', result.title);
+      html = html.replace('{{match.state}}', result.state);
+      html = html.replace('{{match.writer}}', result.writer);
+      html = html.replace('{{match.createdAt}}', formatCreatedAt(result.createdAt));
+      html = html.replace('{{match.sport}}', result.sport);
+      html = html.replace('{{match.location}}', result.location);
+      html = html.replace('{{match.people}}', `${result.people}명`);
+      html = html.replace('{{match.price}}', `${result.price}원`);
+      html = html.replace('{{match.gender}}', genderKor(result.gender));
+      html = html.replace('{{match.content}}', result.content);
+      html = html.replace('{{match.matchDate}}', formatCreatedAt(result.matchDate));
+
+      // 클라이언트에 HTML 응답 전송
+      res.send(html);
+    } else {
+      res.status(404).json({ error: '글을 찾을 수 없습니다.' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/* POST edit match page. */
+router.get('/edit/:id', async (req, res, next) => {
+  try {
+    const matchId = req.params.id;
+    const match = await Match.findById(matchId);
+
+    console.log(match); // 콘솔에 match 객체 출력
+
+    if (!match) {
+      return res.status(404).send('매치를 찾을 수 없습니다.');
+    }
+
+    res.render('edit_match', { match });
+  } catch (error) {
+    next(error);
+  }
+});
 
 const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
 
