@@ -174,7 +174,7 @@
       document.getElementById('commentSubmit').addEventListener('click', () => {
         const token = sessionStorage.getItem('토큰');
         const comment = document.getElementById('comment-input').value;
-        const communityId = window.location.pathname.split('/').pop();
+        const boardId = window.location.pathname.split('/').pop();
 
         if (comment === '') {
           alert('댓글을 입력해 주세요.');
@@ -191,7 +191,7 @@
         .then(response => response.json())
         .then(data => { 
           const writer = data.user_id; // 작성자
-          const commentdata = {comment, communityId, writer};
+          const commentdata = {comment, boardId, writer};
 
           fetch('/comment/', {
             method: 'POST',
@@ -217,9 +217,9 @@
       });
     
       function getComment() {
-        const communityId = window.location.pathname.split('/').pop();
+        const boardId = window.location.pathname.split('/').pop();
 
-        fetch('/comment/' + communityId, {
+        fetch('/comment/' + boardId, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

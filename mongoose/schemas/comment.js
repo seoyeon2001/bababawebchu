@@ -15,7 +15,7 @@ const commentSchema = new Schema({
         default : Date.now,
         required : true
     },
-    matchId:{ // 매치 글 번호
+    boardId:{ // 매치 글 번호
         type : String,
         // type: mongoose.Schema.Types.ObjectId,
         required : true

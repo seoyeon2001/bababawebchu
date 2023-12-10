@@ -15,11 +15,11 @@ const path = require('path');
 // 댓글 작성
 router.post('/', async (req, res) => {
   try {
-    const { comment, matchId, writer } = req.body;
+    const { comment, boardId, writer } = req.body;
 
     await Comment.create({
       comment: comment,
-      matchId: matchId,
+      boardId: boardId,
       writer: writer,
     });
     res.status(201).json({ success: true });
@@ -30,10 +30,10 @@ router.post('/', async (req, res) => {
 });
 
 // 특정 게시글에 속한 댓글 조회
-router.get('/:matchId', async (req, res) => {
+router.get('/:boardId', async (req, res) => {
   try {
-    const matchId = req.params.matchId;
-    const comments = await Comment.find({ matchId });
+    const boardId = req.params.boardId;
+    const comments = await Comment.find({ boardId });
     res.json({success: true, comments: comments});
   } catch (error) {
     console.error(error);

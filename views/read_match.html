@@ -173,10 +173,10 @@
         getComment(); // 페이지 로드 시 댓글 로드
 
         // 매치 ID를 가져와서 수정 버튼의 href 속성을 설정
-        const matchId = window.location.pathname.split('/').pop();
+        const boardId = window.location.pathname.split('/').pop();
         const editButton = document.getElementById('editButton');
         if (editButton) {
-          editButton.href = `/match/edit/${matchId}`;
+          editButton.href = `/match/edit/${boardId}`;
         }
       });
 
@@ -195,7 +195,7 @@
       document.getElementById('commentSubmit').addEventListener('click', () => {
         const token = sessionStorage.getItem('토큰');
         const comment = document.getElementById('comment-input').value;
-        const matchId = window.location.pathname.split('/').pop();
+        const boardId = window.location.pathname.split('/').pop();
 
         if (comment === '') {
           alert('댓글을 입력해 주세요.');
@@ -212,7 +212,7 @@
         .then(response => response.json())
         .then(data => { 
           const writer = data.user_id; // 작성자
-          const commentdata = {comment, matchId, writer};
+          const commentdata = {comment, boardId, writer};
 
           fetch('/comment/', {
             method: 'POST',
@@ -238,9 +238,9 @@
       });
     
       function getComment() {
-        const matchId = window.location.pathname.split('/').pop();
+        const boardId = window.location.pathname.split('/').pop();
 
-        fetch('/comment/' + matchId, {
+        fetch('/comment/' + boardId, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
