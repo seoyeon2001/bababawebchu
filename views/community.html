@@ -53,20 +53,21 @@
 
 
       <!--게시글 리스트-->
-      <div class="container-fluid  p-5">
-        <h2 class="text-center mt-5 fw-bold ">커뮤니티</h2>
-        <div class="mt-5 pt-5">
-          <div class="container-fluid p-5 me-5 mr-5list-container">
-            <div class="card mb-1 p-3">
-              <div class="card-header">
-                <a class="btn btn-primary float-end" href="/community/write_board" style="background-color: #006f3e; color: white;"> 
-                  <i class="fas fa-edit"></i> 글 작성
-                </a>
-              </div>
-              <div class="card-body">
-                <table class="table table-hover table-striped">
-                  <thead>
-                    <tr>
+      <div style="margin: 0 auto; width: 90%;">
+        <div class="container-fluid  p-5"  >
+          <h2 class="text-center mt-5 fw-bold ">커뮤니티</h2>
+         
+            <div class="container-fluid p-5 me-5 mr-5list-container ">
+              <div class="card mb-1 p-3"  style="border: 3px solid #006f3e;">
+                <div class="card-header">
+                  <a class="btn btn-primary float-end" href="/community/write" style="background-color: #006f3e; color: white;"> 
+                    <i class="fas fa-edit"></i> 글 작성
+                  </a>
+                </div>
+                <div class="card-body">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
                       <th>번호</th>
                       <th>카테고리</th>
                       <th>제목</th>
@@ -87,6 +88,7 @@
     <div class="pagination justify-content-center mt-4" id="pagination">
       <!-- 여기에 페이지 버튼들이 추가  -->
     </div>
+  </div>
     <br/>
     <br/>
     <br/>
@@ -164,22 +166,21 @@
       });
       paginationDiv.appendChild(nextButton);
     }
-
     // 
     function getCategoryInKorean(category) {
       switch(category) {
         case 'popular':
-          return '인기';
+          return '인기게시판';
         case 'daily':
-          return '일일';
+          return '일일게시판';
         case 'equipment':
-          return '장비';
+          return '장비게시판';
         case 'tip':
-          return '꿀팁';
+          return '꿀팁게시판';
         case 'market':
-          return '장터';
+          return '장터게시판';
         case 'promotion':
-          return '홍보';
+          return '홍보게시판';
         default:
           return category;
       }
