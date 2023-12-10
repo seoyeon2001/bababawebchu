@@ -10,7 +10,6 @@ const { verifyToken } = require("./middlewares.js");
 const { ObjectId } = require('mongodb');
 const path = require('path');
 
-
 /* GET match page. */
 router.get("/", function (req, res, next) {
   fs.readFile("./views/match.html", (err, data) => {
@@ -190,6 +189,5 @@ router.get("/list/:userid", async (req, res, next) => {
     res.status(500).send("Error fetching match list");
   }
 });
-
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const CommunitySchema = new Schema({
+const communitySchema = new Schema({
     writer : { // 유저 아이디
         type : String,
         required : true,
@@ -34,6 +34,6 @@ const CommunitySchema = new Schema({
       }
 })
  
-const Community = mongoose.model('Community', CommunitySchema);
+const Community = mongoose.model('Community', communitySchema);
  
 module.exports = Community;

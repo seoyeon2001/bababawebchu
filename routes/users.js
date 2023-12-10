@@ -256,5 +256,10 @@ router.get("/community/:id", async (req, res) => {
   });  
 });
 
-
+// 로그아웃
+router.get("/logout", async (req, res) => {
+  // sessionStorage.removeItem('토큰');
+  // 세션 삭제
+  console.log('fhrmdkdnt');
+});
 module.exports = router;

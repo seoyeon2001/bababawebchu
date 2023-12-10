@@ -40,4 +40,5 @@ router.get("/faq", function (req, res, next) {
     }
   });
 }); 
+
 module.exports = router;

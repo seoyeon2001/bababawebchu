@@ -10,7 +10,6 @@ const { verifyToken } = require("./middlewares.js");
 const { ObjectId } = require('mongodb');
 const path = require('path');
 
-
 /* GET community page. */
 router.get("/", function (req, res, next) {
   fs.readFile("./views/community.html", (err, data) => {
@@ -37,6 +36,7 @@ router.get("/write", async (req, res, next) => {
   });
 });  
 
+/* 글 저장 */
 router.post("/write", verifyToken, async (req, res, next) => {
   const userid = req.decoded.id;
   const { title, category, description } = req.body;
@@ -133,6 +133,7 @@ router.get("/popular", function (req, res, next) {
     }
   });
 });
+
 router.get("/list/popular", async function (req, res, next) {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -163,10 +164,6 @@ router.get("/list/popular", async function (req, res, next) {
     res.status(500).send("Error fetching community list");
   }
 });
-
-
-
-
 
 // daily
 router.get("/daily", function (req, res, next) {
@@ -212,7 +209,6 @@ router.get("/list/daily", async function (req, res, next) {
   }
 });
 
-
 //equipment
 router.get("/equipment", function (req, res, next) {
   fs.readFile("./views/equipment_board.html", (err, data) => {
@@ -225,6 +221,7 @@ router.get("/equipment", function (req, res, next) {
     }
   });
 });
+
 router.get("/list/equipment", async function (req, res, next) {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -255,9 +252,6 @@ router.get("/list/equipment", async function (req, res, next) {
     res.status(500).send("Error fetching community list");
   }
 });
-
-
-
 
 // tip
 router.get("/tip", function (req, res, next) {
@@ -303,9 +297,6 @@ router.get("/list/tip", async function (req, res, next) {
   }
 });
 
-
-
-
 // market
 router.get("/market", function (req, res, next) {
   fs.readFile("./views/market_board.html", (err, data) => {
@@ -318,6 +309,7 @@ router.get("/market", function (req, res, next) {
     }
   });
 });
+
 router.get("/list/market", async function (req, res, next) {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -348,9 +340,6 @@ router.get("/list/market", async function (req, res, next) {
     res.status(500).send("Error fetching community list");
   }
 });
-
-
-
 
 //promotion
 router.get("/promotion", function (req, res, next) {
@@ -395,9 +384,6 @@ router.get("/list/promotion", async function (req, res, next) {
     res.status(500).send("Error fetching community list");
   }
 });
-
-
-
 
 // 커뮤니티 리스트
 const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
