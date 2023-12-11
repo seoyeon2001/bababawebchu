@@ -83,7 +83,7 @@ function genderKor(gender) {
   } else if (gender == 'female') {
     return '여성';
   } else if (gender == 'irrelevant') {
-    return '성별 상관없음';
+    return '성별무관';
   }
 }
 
@@ -150,6 +150,17 @@ router.get('/edit/:id', async (req, res, next) => {
 
       console.log(resultObject.writer);
 
+      // 날짜 형식 변경
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
       // 데이터를 HTML에 삽입
       html = html.replace('{{match.title}}', resultObject.title);
       html = html.replace('{{match.state}}', resultObject.state);
@@ -161,8 +172,9 @@ router.get('/edit/:id', async (req, res, next) => {
       html = html.replace('{{match.price}}', resultObject.price);
       html = html.replace('{{match.gender}}', resultObject.gender);
       html = html.replace('{{match.content}}', resultObject.content);
-      html = html.replace('{{match.matchDate}}', resultObject.matchDate);
-
+      html = html.replace('{{match.matchDate}}', formatDate(resultObject.matchDate));
+      
+      
       // 클라이언트에 HTML 응답 전송
       res.send(html);
     } else {
@@ -178,7 +190,7 @@ router.put('/edit/:id', async (req, res) => {
   try {
     const matchId = req.params.id;
     const updatedData = req.body;
-
+    
     const updatedMatch = await Match.findByIdAndUpdate(matchId, updatedData, { new: true });
 
     if (!updatedMatch) {

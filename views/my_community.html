@@ -67,7 +67,7 @@
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
       
-    <div style="margin: 0 auto; width: 90%;">
+    <div style="margin: 0 auto; width: 80%;">
         <div class="container-fluid  p-5">       
             <h2 class="text-center mt-5 fw-bold ">내 게시글</h2>
             <div class="container-fluid p-5 me-5 mr-5list-container ">
@@ -80,7 +80,6 @@
                                 <th>번호</th>
                                 <th>카테고리</th>
                                 <th>제목</th>
-                                <th>작성자</th>
                                 <th>작성일</th>
                                 </tr>
                             </thead>
@@ -98,6 +97,8 @@
     <div class="pagination justify-content-center" id="pagination2" >
     <!-- 여기에 페이지 버튼들이 추가  -->
     </div>
+    <br>
+    <br>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   
@@ -201,17 +202,17 @@
       function getCategoryInKorean(category) {
       switch(category) {
         case 'popular':
-          return '인기';
+          return '인기게시판';
         case 'daily':
-          return '일일';
+          return '일일게시판';
         case 'equipment':
-          return '장비';
+          return '장비게시판';
         case 'tip':
-          return '꿀팁';
+          return '꿀팁게시판';
         case 'market':
-          return '장터';
+          return '장터게시판';
         case 'promotion':
-          return '홍보';
+          return '홍보게시판';
         default:
           return category;
       }
@@ -246,7 +247,6 @@
             <td>${index + 1}</td>
             <td>${getCategoryInKorean(community.category)}</td>
             <td>${community.title}</td>
-            <td>${community.writer}</td>
             <td>${formattedDate}</td>
             `;
             row.addEventListener('click', () => {
