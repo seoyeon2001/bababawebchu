@@ -208,7 +208,15 @@
 
 // 초기 데이터 로딩
 fetchData(1);
+function setSidebarHeight() {
+          const sidebar = document.getElementById('sidebar-wrapper');
+          const windowHeight = window.innerHeight;
+          const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
+          sidebar.style.height = newHeight + 'px';
+        }
 
+        window.addEventListener('DOMContentLoaded', setSidebarHeight);
+        window.addEventListener('resize', setSidebarHeight);
 </script>
 </body>
 </html>

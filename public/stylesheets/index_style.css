@@ -119,6 +119,13 @@
   padding: 10px;
 }
 
+.page {
+  margin-top:50px;
+  margin-left: 340px;
+ }
+[출처] [Bootstrap] 상단바, 사이드바, Footer 고정|작성자 애두릿
+
+
 /*달력*/
 
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
@@ -198,9 +205,9 @@
 }
 
 #sidebar-wrapper {
-  position: fixed;
+  position: absolute;
   width: 250px;
-  height: 1000px;
+  height: 1300px;
   margin-left: -250px;
   background: #006f3e;
   overflow-x: hidden;
