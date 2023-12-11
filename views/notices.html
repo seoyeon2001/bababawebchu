@@ -9,31 +9,36 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
   <title>PangPang</title>
   <style>
-    /* 스타일링은 간단하게 하였습니다. 필요에 따라 수정하세요. */
+    
     .notice-list {
       cursor: pointer;
     }
-    /* 테이블 가운데 정렬 스타일 */
+    
     .table-wrapper {
-      margin-left: 200px;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      text-align: center;
+      margin: 0 auto;
+      border: 3px solid #006f3e;
+      padding: 30px;
+      border-radius: 5px;
     }
     .max-width-1200 {
-      max-width: 1200px;
+      max-width: 1000px;
     }
     /* 선택된 공지사항 행 스타일 */
     .table-wrapper .selected-row {
       background-color: #006f3e;
       color: #fff; /* 선택된 행의 텍스트 색상을 흰색으로 지정 */
       font-weight: bold;
+      
     }
 
     /* 공지사항 내용 행 스타일 */
     .table-wrapper .notice-content {
       background-color: #bebebe; /* 내용의 바탕색을 회색으로 지정 */
     }
+    
 </style>
   <script>
     function toggleNoticeContent(noticeId) {
@@ -94,6 +99,9 @@
     </div>
     <hr class="my-4" style="height: 3px; background-color: #006f3e;">
 
+    <h3 style="text-align: center; font-weight: bold; padding: 50px;">공지사항</h3>
+          
+
     <!-- 테이블로 게시판 만들기 -->
     <div class="table-wrapper max-width-1200">
       <table class="table table-hover">
@@ -106,7 +114,8 @@
         </thead>
         <tbody>
           <!-- 예시 공지사항 데이터 -->
-          <h3 style="text-align: center; font-weight: bold; padding: 50px;">공지사항</h3>
+          
+          
           <tr class="notice-list" data-target="noticeContent1" onclick="toggleNoticeContent('noticeContent1')" style="font-weight: bold;">
             <td>📌 이용 방법 안내 및 이용 시 주의사항</td>
             <td>관리자</td>
@@ -141,6 +150,10 @@
       </table>
     </div>
   </div>
+</div>
+<br>
+<br>
+<br>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
