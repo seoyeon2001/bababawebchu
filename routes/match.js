@@ -87,6 +87,14 @@ function genderKor(gender) {
   }
 }
 
+function stateKor(state) {
+  if (state == 'ing') {
+    return '모집중';
+  } else if (state == 'end') {
+    return '모집완료';
+  }
+}
+
 /* GET match content page. */
 router.get("/read/:id", async (req, res, next) => {
   const matchId = req.params.id;
@@ -103,7 +111,7 @@ router.get("/read/:id", async (req, res, next) => {
 
       // 데이터를 HTML에 삽입
       html = html.replace('{{match.title}}', result.title);
-      html = html.replace('{{match.state}}', result.state);
+      html = html.replace('{{match.state}}', stateKor(result.state));
       html = html.replace('{{match.writer}}', result.writer);
       html = html.replace('{{match.createdAt}}', formatCreatedAt(result.createdAt));
       html = html.replace('{{match.sport}}', result.sport);
@@ -132,25 +140,28 @@ router.get('/edit/:id', async (req, res, next) => {
   try {
     const objectId = new ObjectId(matchId);
     const result = await Match.findOne({ _id: objectId });
+    const resultObject = result.toObject();
 
-    if (result) {
+    if (resultObject) {
 
       // HTML 파일을 읽어 데이터를 삽입
       const htmlFilePath = path.join('views', 'edit_match.html');
       let html = fs.readFileSync(htmlFilePath, 'utf8');
 
+      console.log(resultObject.writer);
+
       // 데이터를 HTML에 삽입
-      html = html.replace('{{match.title}}', result.title);
-      html = html.replace('{{match.state}}', result.state);
-      html = html.replace('{{match.writer}}', result.writer);
-      html = html.replace('{{match.createdAt}}', formatCreatedAt(result.createdAt));
-      html = html.replace('{{match.sport}}', result.sport);
-      html = html.replace('{{match.location}}', result.location);
-      html = html.replace('{{match.people}}', `${result.people}명`);
-      html = html.replace('{{match.price}}', `${result.price}원`);
-      html = html.replace('{{match.gender}}', genderKor(result.gender));
-      html = html.replace('{{match.content}}', result.content);
-      html = html.replace('{{match.matchDate}}', formatCreatedAt(result.matchDate));
+      html = html.replace('{{match.title}}', resultObject.title);
+      html = html.replace('{{match.state}}', resultObject.state);
+      html = html.replace('{{match.writer}}', resultObject.writer);
+      html = html.replace('{{match.createdAt}}', resultObject.createdAt);
+      html = html.replace('{{match.sport}}', resultObject.sport);
+      html = html.replace('{{match.location}}', resultObject.location);
+      html = html.replace('{{match.people}}', resultObject.people);
+      html = html.replace('{{match.price}}', resultObject.price);
+      html = html.replace('{{match.gender}}', resultObject.gender);
+      html = html.replace('{{match.content}}', resultObject.content);
+      html = html.replace('{{match.matchDate}}', resultObject.matchDate);
 
       // 클라이언트에 HTML 응답 전송
       res.send(html);
@@ -163,23 +174,24 @@ router.get('/edit/:id', async (req, res, next) => {
   }
 });
 
-/* POST edit match page. */
-router.get('/edit/:id', async (req, res, next) => {
+router.put('/edit/:id', async (req, res) => {
   try {
     const matchId = req.params.id;
-    const match = await Match.findById(matchId);
+    const updatedData = req.body;
 
-    console.log(match); // 콘솔에 match 객체 출력
+    const updatedMatch = await Match.findByIdAndUpdate(matchId, updatedData, { new: true });
 
-    if (!match) {
-      return res.status(404).send('매치를 찾을 수 없습니다.');
+    if (!updatedMatch) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    res.render('edit_match', { match });
+    res.status(200).json({ message: '게시글이 성공적으로 수정되었습니다.' });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({ message: '서버 오류입니다.' });
   }
 });
+
 
 const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
 
