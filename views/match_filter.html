@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+    <title>PangPang</title>
+    <script>      
+      fetch('/navbar')
+        .then(response => {return response.text()})
+          .then(data => {document.getElementById("content").innerHTML = data;})
+          .catch(error => console.error('Error:', error));
+    </script>
+  </head>
+
+  <body>
+    <!-- 네비게이션바 -->
+    <div id='content'></div>
+    
+    <!--빵 부스러기 (Breadcrumb)-->
+    <main class="mt-3 pt-1">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <i class="bi bi-house-fill"> > 매치 > 전체 매치</i>
+          </div> 
+        </div>
+      </div>
+    </main>
+
+    <!--사이드바 -->
+    <div id="page-wrapper">
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="/match" style="font-size: 1.5em;">매치</a>
+          </li>
+          <li><a href="/match">전체 매치</a></li>
+          <li><a href="/match/write">매치 게시물 작성</a></li>
+          <li><a href="/info/stadium">경기장 정보</a></li>
+        </ul>
+      </div>
+      <hr class="my-4" style="height: 3px; background-color: #006f3e;">
+
+    <!--게시글 리스트-->
+    <div style="margin: 0 auto; width: 90%;">
+      <div class="container-fluid  p-5">
+        <h2 class="text-center mt-5 fw-bold" id="titletext"></h2>
+        <div class="container-fluid p-5 me-5 mr-5list-container ">
+          <div class="card mb-1 p-3"  style="border: 3px solid #006f3e;">
+            <div class="card-header">
+              <a class="btn btn-primary float-end" href="/match/write" style="background-color: #006f3e; color: white;"> 
+                <i class="fas fa-edit"></i> 글 작성
+              </a>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>번호</th>
+                    <th>모집 상태</th>
+                    <th>매치일</th>
+                    <th>운동종목</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                  </tr>
+                </thead>
+                <tbody id="matchTableBody">
+                <!-- 여기에 게시글 목록이 추가됨 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- 페이지네이션 -->
+    <div class="pagination justify-content-center" id="pagination" >
+      <!-- 여기에 페이지 버튼들이 추가  -->
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+      const date = window.location.href.split('/').pop();
+
+      const originalDate = new Date(decodeURIComponent(date))
+
+      const year = originalDate.getFullYear();
+      const month = originalDate.getMonth()+1;
+      const day = originalDate.getDate();
+
+      document.getElementById("titletext").innerHTML =  `${year} ${month} ${day} 매치`;
+      
+      const tbody = document.getElementById('matchTableBody');
+      const paginationDiv = document.getElementById('pagination');
+
+      //페이지네이션
+      const ITEMS_PER_PAGE = 10;
+
+      function createPaginationButtons(totalPages, currentPage) {
+        paginationDiv.innerHTML = ''; // 이전 버튼 초기화
+
+        const prevButton = document.createElement('button');
+        prevButton.innerHTML = `
+            <span aria-hidden="true">&laquo;</span>
+            <span class="visually-hidden">Previous</span>
+        `;
+        prevButton.classList.add('btn', 'btn-outline-secondary', 'me-2');
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+            fetchData(currentPage - 1);
+            }
+        });
+        paginationDiv.appendChild(prevButton);
+
+        for (let i = 1; i <= totalPages; i++) {
+          const pageButton = document.createElement('button');
+          pageButton.innerText = i;
+          pageButton.classList.add('btn', 'btn-outline-secondary', 'me-2');
+          if (i === currentPage) {
+          pageButton.classList.add('btn-custom');
+          }
+          pageButton.addEventListener('click', () => {
+          fetchData(i);
+          });
+          paginationDiv.appendChild(pageButton);
+        }
+
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = `
+            <span aria-hidden="true">&raquo;</span>
+            <span class="visually-hidden">Next</span>
+        `;
+        nextButton.classList.add('btn', 'btn-outline-secondary');
+        nextButton.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+          fetchData(currentPage + 1);
+          }
+        });
+        paginationDiv.appendChild(nextButton);
+      }
+
+      function fetchData(page) { 
+        fetch(`/match/date/list/` + date + `?page=${page}`)
+        .then(response => { return response.json() })
+        .then(data => {
+          tbody.innerHTML = ''; // 테이블 초기화
+
+          data.boards.forEach((matches, index) => {
+            const row = document.createElement('tr');
+            const matchDate = new Date(matches.matchDate).toLocaleDateString();
+            const createDate = new Date(matches.createdAt).toLocaleDateString();
+            row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${matches.state}</td>
+            <td>${matchDate}</td>
+            <td>${matches.sport}</td>
+            <td>${matches.title}</td>
+            <td>${createDate}</td>
+            `;
+            row.addEventListener('click', () => {
+            // 글 상세 페이지로 이동
+            window.location.href = `/match/read/${matches._id}`;
+            });
+            tbody.appendChild(row);
+          });
+          createPaginationButtons(data.totalPages, data.currentPage);
+        })
+        .catch(error => console.error('Error:', error));
+      }
+
+      // 초기 데이터 로딩
+      fetchData(1);
+    </script>
+  </body>
+</html>

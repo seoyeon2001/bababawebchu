@@ -246,4 +246,61 @@ router.get("/list/:userid", async (req, res, next) => {
   }
 });
 
+router.get('/date/list/:date', async (req, res, next) => {
+  console.log('날짜별 리스트를 불러옵니다.')
+  console.log(req.params.date);
+
+  const originalDate = new Date(req.params.date)
+
+  const year = originalDate.getFullYear();
+  const month = originalDate.getMonth();
+  const day = originalDate.getDate();
+
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+
+    const totalMatches = await Match.countDocuments();
+    const totalPages = Math.ceil(totalMatches / ITEMS_PER_PAGE);
+
+    const matchList = await Match.find( { 
+      matchDate: {
+        $gte: new Date(year, month, day), // 현재 날짜 이상
+        $lt: new Date(year, month, day + 1) // 다음 날짜
+      }
+    })
+    .sort({ createdAt: -1 })
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
+    console.log("날짜 별 매치 글 불러오기", matchList);
+
+    // JSON 데이터를 먼저 클라이언트에게 반환합니다.
+    res.json({ 
+      boards: matchList, // matchList를 'boards'라는 이름으로 반환합니다.
+      currentPage: page,
+      hasNextPage: ITEMS_PER_PAGE * page < totalMatches,
+      hasPrevPage: page > 1,
+      nextPage: page < totalPages ? page + 1 : null,
+      prevPage: page > 1 ? page - 1 : null,
+      totalPages: totalPages,
+      date: req.params.date,
+    });
+  } catch (err) {
+    console.error("Error fetching match list:", err);
+    res.status(500).send("Error fetching match list");
+  }
+});
+
+router.get('/date/:date', async (req, res, next) => {
+  fs.readFile("./views/match_filter.html", (err, data) => {
+    if (err) {
+      res.send("error");
+    } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+    }
+  });
+});
+
 module.exports = router;

@@ -190,6 +190,10 @@
                     document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
                 }
                 newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
+
+                // 해당 날짜에 있는 매치 글 가지고오기
+                const date = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), newDIV.innerText);   // 선택한 날짜의 Date 객체 생성
+                window.location.href = `/match/date/${date}`;
             }
 
             // 이전달 버튼 클릭
