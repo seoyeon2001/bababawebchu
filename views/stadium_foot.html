@@ -22,6 +22,19 @@
                 }
             })
             .catch(error => console.error('Error:', error));
+      
+      function confirmNavigation(event) {
+        event.preventDefault();
+
+        const confirmation = confirm('교내장소 사용신청 페이지로 이동하시겠습니까?');
+
+        if (confirmation) {
+          const targetURL = event.target.href;
+          window.location.href = targetURL;
+        } else {
+          // '아니오'를 누르면 아무 동작도 하지 않음
+        }
+      }
     </script>
     <style>
       .sport_content{
@@ -145,7 +158,7 @@
           <li><a href="/match">전체 매치</a></li>
           <li><a href="/match/write">매치 게시물 작성</a></li>
           <li><a href="/info/stadium" class="underline-on">경기장 정보</a></li>
-          <li><a href="https://klas.kw.ac.kr/std/sys/optrn/e4c863dfd8c7410d92bc4abc9542bccd/BoardListStdPage.do">교내장소 사용신청</a></li>
+          <li><a href="https://klas.kw.ac.kr/std/sys/optrn/e4c863dfd8c7410d92bc4abc9542bccd/BoardListStdPage.do" onclick="confirmNavigation(event)">교내장소 사용신청</a></li>
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
