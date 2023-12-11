@@ -10,6 +10,25 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
     <title>PangPang</title>
+    <style>
+      table {
+        margin-left: 200px;
+          width: 1200px;
+          border-collapse: collapse;
+          margin-top: 20px;
+      }
+
+      th, td {
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+          text-align: center; /* 가운데 정렬을 위해 추가 */
+      }
+
+      th {
+          background-color: #006f3e;
+          color: #ffffff;
+      }
+  </style>
     <script>      
       fetch('/navbar')
             .then(response => response.text())
@@ -58,8 +77,153 @@
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
 
-    class="underline-on"
-    <p>축구 경기 안내 페이지</p>
+        <!--축구 경기일정 및 결과-->
+        <h3 style="text-align: center; font-weight: bold; padding: 50px;">⚽ 축구 경기일정 및 결과</h3>
+        <a href="https://kusf.or.kr/league/league_schedule.html?e_code=45&ptype=&l_year=2023&l_mon=&l_code=&t_code=" class="btn btn-success" style="margin-left: 1200px;">자세한 정보 보러가기 ▶</a>
+        <table>
+          <thead>
+              <tr>
+                  <th>유형</th>
+                  <th>날짜</th>
+                  <th>시간 및 장소</th>
+                  <th>HOME</th>
+                  <th>점수</th>
+                  <th>AWAY</th>
+              </tr>
+          </thead>
+          <tbody>
+            <!-- 데이터 추가 -->
+            <tr>
+                <td>KUSF 대학축구 U리그1 3권역</td>
+                <td>03.24(금)/td>
+                <td>14:30 에코랜드축구장(별내면)</td>
+                <td>광운대</td>
+                <td>3 : 0</td>
+                <td>한일장신대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>03.31(금)</td>
+              <td>15:00 인천대운동장</td>
+              <td>인천대</td>
+              <td>3 : 2</td>
+              <td>광운대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>04.07(금)</td>
+              <td>15:00 강서개화축구장</td>
+              <td>강서대</td>
+              <td>2 : 2</td>
+              <td>광운대</td>
+          </tr>
+          <tr>
+            <td>KUSF 대학축구 U리그1 3권역</td>
+            <td>04.14(금)</td>
+            <td>15:00 용인대운동장</td>
+            <td>용인대</td>
+            <td>1 : 1</td>
+            <td>광운대</td>
+          </tr>
+          <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>05.12(금)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>2 : 2</td>
+              <td>조선대</td>
+          </tr>
+          <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>05.19(금)</td>
+              <td>14:00 옐로우시티스타디움보조구장</td>
+              <td>광주대</td>
+              <td>0 : 0</td>
+              <td>광운대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>05.26(금)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>4 : 1</td>
+              <td>호남대</td>
+            </tr>
+            <tr>
+                <td>KUSF 대학축구 U리그1 3권역</td>
+                <td>06.02(금)</td>
+                <td>15:00 용인미르보조구장</td>
+                <td>명지대</td>
+                <td>1 : 0</td>
+                <td>광운대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>06.09(금)</td>
+              <td>11:00 상관생활체육공원</td>
+              <td>한일장신대</td>
+              <td>0 : 0</td>
+              <td>광운대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>06.16(금)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>2 : 2</td>
+              <td>인천대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>09.08(금)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>1 : 2</td>
+              <td>강서대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>09.19(화)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>3 : 1</td>
+              <td>명지대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>10.24(화)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>5 : 0</td>
+              <td>용인대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>10.27(금)</td>
+              <td>14:30 에코랜드축구장(별내면)</td>
+              <td>광운대</td>
+              <td>2 : 3</td>
+              <td>광주대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>10.31(화)</td>
+              <td>10:30 옐로우시티스타디움보조구장(장성군)/td>
+              <td>조선대</td>
+              <td>7 : 4</td>
+              <td>광운대</td>
+            </tr>
+            <tr>
+              <td>KUSF 대학축구 U리그1 3권역</td>
+              <td>11.03(금)</td>
+              <td>15:00 호남대인조구장</td>
+              <td>호남대</td>
+              <td>2 : 2</td>
+              <td>광운대</td>
+            </tr>
+    
+          </tbody>
+      </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>

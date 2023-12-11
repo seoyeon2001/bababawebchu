@@ -10,6 +10,25 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
     <title>PangPang</title>
+    <style>
+      table {
+        margin-left: 200px;
+          width: 1200px;
+          border-collapse: collapse;
+          margin-top: 20px;
+      }
+
+      th, td {
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+          text-align: center; /* 가운데 정렬을 위해 추가 */
+      }
+
+      th {
+          background-color: #006f3e;
+          color: #ffffff;
+      }
+  </style>
     <script>      
       fetch('/navbar')
             .then(response => response.text())
@@ -58,7 +77,130 @@
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
 
-    <p>하키 경기 안내 페이지</p>
+      
+
+    <!--아이스하키 경기일정 및 결과-->
+    <h3 style="text-align: center; font-weight: bold; padding: 50px;">🏒 아이스하키 경기일정 및 결과</h3>
+    <a href="https://kusf.or.kr/league/league_schedule.html?e_code=33" class="btn btn-success" style="margin-left: 1200px;">자세한 정보 보러가기 ▶</a>
+    <table>
+      <thead>
+          <tr>
+              <th>유형</th>
+              <th>날짜</th>
+              <th>시간 및 장소</th>
+              <th>HOME</th>
+              <th>점수</th>
+              <th>AWAY</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- 데이터 추가 -->
+          <tr>
+              <td>KUSF 대학아이스하키 U-리그</td>
+              <td>09.04(월)</td>
+              <td>18:00 목동아이스링크</td>
+              <td>연세대</td>
+              <td>5 : 1</td>
+              <td>광운대</td>
+          </tr>
+          <tr>
+            <td>KUSF 대학아이스하키 U-리그</td>
+            <td>09.07(목)</td>
+            <td>19:00 광운대학교아이스링크</td>
+            <td>광운대</td>
+            <td>4 : 0</td>
+            <td>경희대</td>
+          </tr>
+          <tr>
+            <td>KUSF 대학아이스하키 U-리그</td>
+            <td>09.12(화)</td>
+            <td>19:00 광운대학교아이스링크</td>
+            <td>광운대</td>
+            <td>1 : 5</td>
+            <td>고려대</td>
+          </tr>
+          <tr>
+            <td>KUSF 대학아이스하키 U-리그</td>
+            <td>09.18(월)</td>
+            <td>19:00 광운대학교아이스링크</td>
+            <td>경희대</td>
+            <td>1 : 6</td>
+            <td>광운대</td>
+          </tr>
+          <tr>
+            <td>KUSF 대학아이스하키 U-리그</td>
+            <td>09.21(목)</td>
+            <td>19:00 광운대학교아이스링크</td>
+            <td>광운대</td>
+            <td>3 : 5</td>
+            <td>연세대</td>
+          </tr>
+          <tr>
+            <td>KUSF 대학아이스하키 U-리그</td>
+            <td>09.26(화)</td>
+            <td>17:30 고려대학교아이스링크</td>
+            <td>고려대</td>
+            <td>6 : 2</td>
+            <td>광운대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>10.06(금)</td>
+          <td>19:00 광운대학교아이스링크</td>
+          <td>광운대</td>
+          <td>6 : 0</td>
+          <td>경희대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>10.09(월)</td>
+          <td>19:00 광운대학교아이스링크</td>
+          <td>광운대</td>
+          <td>1 : 3</td>          
+          <td>고려대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>10.12(목)</td>
+          <td>18:00 목동아이스링크</td>
+          <td>연세대</td>
+          <td>4 : 2</td>
+          <td>광운대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>10.17(화)</td>
+          <td>19:00 광운대학교아이스링크</td>
+          <td>광운대</td>
+          <td>1 : 3</td>
+          <td>고려대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>10.20(금)</td>
+          <td>19:00 광운대학교아이스링크</td>
+          <td>광운대</td>
+          <td>0 : 5</td>
+          <td>연세대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>10.23(월)</td>
+          <td>19:00 광운대학교아이스링크</td>
+          <td>경희대</td>
+          <td>2 : 12</td>
+          <td>광운대</td>
+        </tr>
+        <tr>
+          <td>KUSF 대학아이스하키 U-리그</td>
+          <td>11.02(목)</td>
+          <td>18:00 목동아이스링크</td>
+          <td>연세대</td>
+          <td>2 : 1</td>
+          <td>광운대</td>
+        </tr>
+      </tbody>
+  </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>
