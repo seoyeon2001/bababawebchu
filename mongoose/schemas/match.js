@@ -8,7 +8,7 @@ const matchSchema = new Schema({
     },
     state : { // 모집 상태
         type : String,
-        enum: ['ing', 'end'],
+        enum: ['모집중', '모집완료'],
         required : true,
     },
     title: { // 제목
