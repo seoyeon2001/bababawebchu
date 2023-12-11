@@ -1,63 +1,147 @@
-<!-- 복붙한거임 -->
-
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
-    <title>PangPang</title>
-    <script>      
-      fetch('/navbar')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("content").innerHTML = data;
-                // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
-                const token = sessionStorage.getItem('토큰');
-                if (token) {
-                    document.getElementById("logoutButton").style.display = "block";
-                } else {
-                    document.getElementById("logoutButton").style.display = "none";
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    </script>
-  </head>
-  <body>
-    <!-- 네비게이션바 -->
-    <div id='content'></div>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+  <title>PangPang</title>
+  <style>
+    /* 스타일링은 간단하게 하였습니다. 필요에 따라 수정하세요. */
+    .notice-list {
+      cursor: pointer;
+    }
+    /* 테이블 가운데 정렬 스타일 */
+    .table-wrapper {
+      margin-left: 200px;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .max-width-1200 {
+      max-width: 1200px;
+    }
+    /* 선택된 공지사항 행 스타일 */
+    .table-wrapper .selected-row {
+      background-color: #006f3e;
+      color: #fff; /* 선택된 행의 텍스트 색상을 흰색으로 지정 */
+      font-weight: bold;
+    }
 
-    <!--빵 부스러기 (Breadcrumb)-->
-    <main class="mt-3 pt-1">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-           
-            <i class="bi bi-house-fill"> > 도움말 > 공지사항</i>
-          </div> 
-        </div>
+    /* 공지사항 내용 행 스타일 */
+    .table-wrapper .notice-content {
+      background-color: #bebebe; /* 내용의 바탕색을 회색으로 지정 */
+    }
+</style>
+  <script>
+    function toggleNoticeContent(noticeId) {
+      const content = document.getElementById(noticeId);
+      content.classList.toggle('collapse');
+
+      // 클릭된 행에 'selected-row' 클래스 추가/제거
+      const selectedRow = document.querySelector('.selected-row');
+      if (selectedRow) {
+        selectedRow.classList.remove('selected-row');
+      }
+      const clickedRow = document.querySelector(`.notice-list[data-target="${noticeId}"]`);
+      clickedRow.classList.add('selected-row');
+    }
+
+    fetch('/navbar')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("content").innerHTML = data;
+        // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
+        const token = sessionStorage.getItem('토큰');
+        if (token) {
+          document.getElementById("logoutButton").style.display = "block";
+        } else {
+          document.getElementById("logoutButton").style.display = "none";
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+</head>
+<body>
+  <!-- 네비게이션바 -->
+  <div id='content'></div>
+
+  <!--빵 부스러기 (Breadcrumb)-->
+  <main class="mt-3 pt-1">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <i class="bi bi-house-fill"> > 도움말 > 공지사항</i>
+        </div> 
       </div>
-    </main>
-   
+    </div>
+  </main>
 
-    <!--사이드바 -->
-    <div id="page-wrapper">
-      <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-          <li class="sidebar-brand">
-            <a href="/help/notices" style="font-size: 1.5em;">도움말</a>
-          </li>
-          <br>
-          <li><a href="/help/notices" class="underline-on">공지사항</a></li>
-          <li><a href="/help/qna">QnA</a></li>
-          <li><a href="/help/faq">FAQ</a></li>
-        </ul>
-      </div>
-      <hr class="my-4" style="height: 3px; background-color: #006f3e;">
-    <p>공지사항 페이지이자 도움말 누르면 나오는 페이지</p>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  </body>
+  <!--사이드바 -->
+  <div id="page-wrapper">
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+          <a href="/help/notices" style="font-size: 1.5em;">도움말</a>
+        </li>
+        <br>
+        <li><a href="/help/notices" class="underline-on notice-list" data-target="noticeContent1" onclick="toggleNoticeContent('noticeContent1')">공지사항</a></li>
+        <li><a href="/help/qna" class="notice-list" data-target="noticeContent2" onclick="toggleNoticeContent('noticeContent2')">QnA</a></li>
+        <li><a href="/help/faq" class="notice-list" data-target="noticeContent3" onclick="toggleNoticeContent('noticeContent3')">FAQ</a></li>
+      </ul>
+    </div>
+    <hr class="my-4" style="height: 3px; background-color: #006f3e;">
+
+    <!-- 테이블로 게시판 만들기 -->
+    <div class="table-wrapper max-width-1200">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 예시 공지사항 데이터 -->
+          <h3 style="text-align: center; font-weight: bold; padding: 50px;">공지사항</h3>
+          <tr class="notice-list" data-target="noticeContent1" onclick="toggleNoticeContent('noticeContent1')" style="font-weight: bold;">
+            <td>📌 이용 방법 안내 및 이용 시 주의사항</td>
+            <td>관리자</td>
+            <td>2023/12/01</td>
+          </tr>
+          <tr id="noticeContent1" class="collapse notice-content" style="background-color: #bebebe; padding: 10px 0;">
+            <td colspan="3"><br>안녕하세요. 팡팡 페이지 관리자입니다.<br><br>
+              1. 팡팡 이용 안내<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;저희 '팡팡' 서비스를 이용하기 위해서는 반드시 회원가입이 필요합니다. 회원가입 후에는 자신이 원하는 스포치와 시간, 장소 등을 선택하여 파트너를 매칭할 수 있습니다. 또한, 스포츠 관련 커뮤니티, 교내대회 안내 등 다양한 서비스를 누릴 수 있습니다.<br><br>
+              2. 팡팡 이용 시 주의사항<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'팡팡' 이용 시에는 다음과 같은 주의사항을 반드시 지켜주시기 바랍니다.<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;● 매칭한 파트너와 함께 스포츠를 즐길 때는 안전에 유의해주세요.<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;● 매칭한 파트너와 약속한 시간과 장소는 반드시 지켜주세요.<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;● 매칭한 파트너와 함께 스포츠를 즐기는 동안 발생한 문제는 책임지지 않습니다.<br><br>
+              저희 '팡팡' 서비스를 통해 광운대학교 학생분들이 좋은 추억을 만드시면 좋겠습니다.<br><br>
+              감사합니다.<br><br>
+              팡팡 관리자 올림<br><br></td>
+          </tr>
+          <tr class="notice-list" data-target="noticeContent2" onclick="toggleNoticeContent('noticeContent2')" style="font-weight: bold;">
+            <td>📌 팡팡 홈페이지 오픈 </td>
+            <td>관리자</td>
+            <td>2023/12/01</td>
+          </tr>
+          <tr id="noticeContent2" class="collapse notice-content" style="background-color: #bebebe; padding: 10px 0;">
+            <td colspan="3"><br>안녕하세요. 팡팡 페이지 관리자입니다.<br>팡팡 페이지는 광운대학교 학생들을 위한 스포츠 파트너 매칭 서비스입니다.<br><br>저희 '팡팡'은 다음과 같은 서비스를 제공합니다.<br><br>
+              1. 스포츠 파트너 매칭<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'팡팡'에서는 광운대학교 학생들이 자신이 원하는 스포츠와 시간, 장소 등을 선택하여 파트너를 매칭할 수 있습니다.<br>
+              2. 다양한 스포츠 종목<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'팡팡'에서는 축구, 농구, 야구, 배드민턴, 테니스 등 다양한 스포츠 종목의 파트너를 구할 수 있으며, 학생들은 자신이 원하는 스포츠를 선택하여 파트너를 매칭할 수 있습니다.<br>
+              3. 편리한 장소 예약<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'팡팡'에서는 노원구 내에 존재하는 체육시설 및 교내장소 예약 사이트와 연결되어 있어 예약하기에 매우 편리합니다.<br><br>
+              저희 '팡팡' 관리자들은 보다 더 좋은 서비스를 제공하기 위해 노력하겠습니다.<br>
+              문의사항이 있을 시 QnA 게시판에 남겨주시면 친절하게 대답해드리겠습니다.<br><br>감사합니다.<br><br>팡팡 관리자 올림<br><br></td>
+          </tr>
+          <!-- 추가적인 공지사항을 필요에 따라 여기에 추가하세요. -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
 </html>
