@@ -80,7 +80,7 @@
                     <span style='float:right'>
                         <a href="/match" class="btn btn-success">목록</a>
                         <a id="editButton" class="btn btn-success">수정</a>
-                        <a href="/match/delete" class="btn btn-success">삭제</a>
+                        <a id="deleteButton" class="btn btn-success" onclick="deleteMatch()">삭제</a>
                         <a href="/match/write" class="btn btn-success">글쓰기</a>
                     </span>
             </table>
@@ -280,6 +280,37 @@
         });
       }
 
+      function deleteMatch() {
+        const boardId = window.location.pathname.split('/').pop();
+        const token = sessionStorage.getItem('토큰');
+
+        // 사용자에게 삭제 확인 메시지 표시
+        if (confirm('정말로 삭제하시겠습니까?')) {
+          // '예'를 선택한 경우
+          fetch(`/match/delete/${boardId}`, {
+            method: 'DELETE',
+            headers: {
+              'authorization': `${token}`,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('매치가 성공적으로 삭제되었습니다.');
+              window.location.href = '/match'; // 삭제 완료 후 매치 목록 페이지로 이동
+            } else {
+              alert('매치 삭제에 실패하였습니다.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        } else {
+          // '아니오'를 선택한 경우
+          alert('삭제가 취소되었습니다.');
+        }
+      }
     </script>
   </body>
 </html>

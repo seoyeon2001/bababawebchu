@@ -192,6 +192,27 @@ router.put('/edit/:id', async (req, res) => {
   }
 });
 
+/* DELETE match page. */
+router.delete('/delete/:id', async (req, res) => {
+  const matchId = req.params.id;
+
+  try {
+    // 매치 ID에 해당하는 데이터를 찾아서 삭제
+    const result = await Match.findByIdAndDelete(matchId);
+
+    if (result) {
+      // 성공적으로 삭제된 경우
+      res.json({ success: true, message: '매치가 성공적으로 삭제되었습니다.' });
+    } else {
+      // 매치 ID에 해당하는 데이터가 없는 경우
+      res.status(404).json({ success: false, message: '삭제할 매치를 찾을 수 없습니다.' });
+    }
+  } catch (error) {
+    // 삭제 과정에서 오류가 발생한 경우
+    console.error('Error deleting match:', error);
+    res.status(500).json({ success: false, message: '매치 삭제에 실패하였습니다.' });
+  }
+});
 
 const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
 
