@@ -104,6 +104,7 @@ router.get("/read/:id", async (req, res, next) => {
     const result = await Match.findOne({ _id: objectId });
 
     if (result) {
+      result.content = result.content.replace(/\n/g, '<br />');
 
       // HTML 파일을 읽어 데이터를 삽입
       const htmlFilePath = path.join('views', 'read_match.html');
@@ -148,7 +149,7 @@ router.get('/edit/:id', async (req, res, next) => {
       const htmlFilePath = path.join('views', 'edit_match.html');
       let html = fs.readFileSync(htmlFilePath, 'utf8');
 
-      console.log(resultObject.writer);
+      console.log(resultObject);
 
       // 날짜 형식 변경
       function formatDate(dateString) {
@@ -187,6 +188,7 @@ router.get('/edit/:id', async (req, res, next) => {
 });
 
 router.put('/edit/:id', async (req, res) => {
+  console.log(req.body);
   try {
     const matchId = req.params.id;
     const updatedData = req.body;
@@ -197,7 +199,7 @@ router.put('/edit/:id', async (req, res) => {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    res.status(200).json({ message: '게시글이 성공적으로 수정되었습니다.' });
+    res.status(200).json({ success: true, message: '게시글이 성공적으로 수정되었습니다.' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: '서버 오류입니다.' });
