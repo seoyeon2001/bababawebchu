@@ -5,8 +5,8 @@ const connect = async () => {
     mongoose.set("debug", true);
   }
 
-  await mongoose.connect("mongodb://root:1234@127.0.0.1:27017/admin", {
-    dbName: "pangpang",
+  await mongoose.connect(process.env.MONGODB_URI, {
+    dbName: process.env.DB_NAME,
   });
 };
 
