@@ -14,6 +14,7 @@ const infoRouter = require("./routes/info");
 const helpRouter = require("./routes/help");
 const commentRouter = require("./routes/comment"); 
 const stadiumRouter = require("./routes/stadium");
+const questionRouter = require("./routes/question.js");
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use("/info", infoRouter);
 app.use("/help", helpRouter);
 app.use("/comment", commentRouter);
 app.use("/stadium", stadiumRouter);
+app.use("/question", questionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
