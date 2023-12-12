@@ -87,10 +87,8 @@ router.get("/read/:id", async (req, res, next) => {
 
       // 카테고리 한글로 변경
       function categoryKor(category) {
-        if (category == 'popular') {
+        if (category == 'daily') {
           return '자유게시판';
-        } else if (category == 'daily') {
-          return '일일게시판';
         } else if (category == 'equipment') {
           return '장비게시판';
         } else if (category == 'tip') {
@@ -138,10 +136,8 @@ router.get('/edit/:id', async (req, res, next) => {
 
       // 카테고리 한글로 변경
       function categoryKor(category) {
-        if (category == 'popular') {
+        if (category == 'daily') {
           return '자유게시판';
-        } else if (category == 'daily') {
-          return '일일게시판';
         } else if (category == 'equipment') {
           return '장비게시판';
         } else if (category == 'tip') {
@@ -211,50 +207,6 @@ router.delete('/delete/:id', async (req, res) => {
     // 삭제 과정에서 오류가 발생한 경우
     console.error('Error deleting community:', error);
     res.status(500).json({ success: false, message: '게시글 삭제에 실패하였습니다.' });
-  }
-});
-
-// popular
-router.get("/popular", function (req, res, next) {
-  fs.readFile("./views/popular_board.html", (err, data) => {
-    if (err) {
-      res.send("error");
-    } else {
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.write(data);
-      res.end();
-    }
-  });
-});
-
-router.get("/list/popular", async function (req, res, next) {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const skipItems = (page - 1) * ITEMS_PER_PAGE;
-    const category = req.query.category; // 클라이언트로부터 카테고리 정보를 받아옴
-
-    let query = { category: 'popular' }; // Filter by 'popular' category by default
-
-    const totalCommunities = await Community.countDocuments(query);
-    const totalPages = Math.ceil(totalCommunities / ITEMS_PER_PAGE);
-
-    const communityList = await Community.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skipItems)
-      .limit(ITEMS_PER_PAGE);
-
-    res.json({ 
-      boards: communityList,
-      currentPage: page,
-      hasNextPage: ITEMS_PER_PAGE * page < totalCommunities,
-      hasPrevPage: page > 1,
-      nextPage: page < totalPages ? page + 1 : null,
-      prevPage: page > 1 ? page - 1 : null,
-      totalPages: totalPages,
-    });
-  } catch (err) {
-    console.error("Error fetching community list:", err);
-    res.status(500).send("Error fetching community list");
   }
 });
 

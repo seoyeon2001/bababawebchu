@@ -29,7 +29,7 @@ const communitySchema = new Schema({
     },
     category: {
         type: String,
-        enum: ['popular', 'daily', 'equipment', 'tip', 'market', 'promotion'],
+        enum: ['daily', 'equipment', 'tip', 'market', 'promotion'],
         required: true
       }
 })
