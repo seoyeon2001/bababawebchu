@@ -230,6 +230,16 @@
           .catch(error => console.error('Error:', error));
         }
       }
+      //사이드바 높이 동적으로 조절
+    function setSidebarHeight() {
+          const sidebar = document.getElementById('sidebar-wrapper');
+          const windowHeight = window.innerHeight;
+          const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
+          sidebar.style.height = newHeight + 'px';
+        }
+
+        window.addEventListener('DOMContentLoaded', setSidebarHeight);
+        window.addEventListener('resize', setSidebarHeight);
 
     </script>
   </body>

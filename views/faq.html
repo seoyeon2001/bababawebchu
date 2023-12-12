@@ -105,5 +105,17 @@
         </div>
       </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+      //사이드바 높이 동적으로 조절
+    function setSidebarHeight() {
+          const sidebar = document.getElementById('sidebar-wrapper');
+          const windowHeight = window.innerHeight;
+          const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
+          sidebar.style.height = newHeight + 'px';
+        }
+
+        window.addEventListener('DOMContentLoaded', setSidebarHeight);
+        window.addEventListener('resize', setSidebarHeight);
+    </script>
   </body>
 </html>

@@ -119,6 +119,8 @@
   padding: 10px;
 }
 
+
+
 /*달력*/
 
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
@@ -198,9 +200,9 @@
 }
 
 #sidebar-wrapper {
-  position: fixed;
+  position: absolute;
   width: 250px;
-  height: 1000px;
+  height: 1300px;
   margin-left: -250px;
   background: #006f3e;
   overflow-x: hidden;
