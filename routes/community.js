@@ -80,6 +80,7 @@ router.get("/read/:id", async (req, res, next) => {
     const result = await Community.findOne({ _id: objectId });
 
     if (result) {
+      result.content = result.content.replace(/\n/g, '<br />');
 
       // HTML 파일을 읽어 데이터를 삽입
       const htmlFilePath = path.join('views', 'read_board.html');
@@ -128,6 +129,8 @@ router.get('/edit/:id', async (req, res, next) => {
     const result = await Community.findOne({ _id: objectId });
     const resultObject = result.toObject();
 
+    console.log(resultObject);
+
     if (resultObject) {
 
       // HTML 파일을 읽어 데이터를 삽입
@@ -168,12 +171,11 @@ router.get('/edit/:id', async (req, res, next) => {
   }
 });
 
-router.patch('/edit/:id', async (req, res) => {
+router.put('/edit/:id', async (req, res) => {
+  console.log(req.body);
   try {
     const boardId = req.params.id;
     const updatedData = req.body;
-
-    console.log(updatedData);
     
     const updatedCommunity = await Community.findByIdAndUpdate(boardId, updatedData, { new: true });
 
@@ -181,7 +183,7 @@ router.patch('/edit/:id', async (req, res) => {
       return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
     }
 
-    res.status(200).json({ message: '게시글이 성공적으로 수정되었습니다.' });
+    res.status(200).json({ success: true, message: '게시글이 성공적으로 수정되었습니다.' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: '서버 오류입니다.' });
