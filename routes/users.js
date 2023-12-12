@@ -256,6 +256,18 @@ router.get("/community/:id", async (req, res) => {
   });  
 });
 
+router.get("/question/:id", async (req, res) => {
+  fs.readFile("./views/my_qna.html", (err, data) => {
+    if (err) {
+      res.send("error");
+    } else {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.write(data);
+      res.end();
+    }
+  });  
+});
+
 // 로그아웃
 router.get("/logout", async (req, res) => {
   // sessionStorage.removeItem('토큰');

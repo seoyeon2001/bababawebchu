@@ -19,6 +19,7 @@
         margin: auto;
       }
     </style>
+
     <script>      
       fetch('/navbar')
       .then(response => response.text())
@@ -44,7 +45,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <i class="bi bi-house-fill"> > 마이페이지 > 내 커뮤니티글 보기</i>
+            <i class="bi bi-house-fill"> > 마이페이지 > 내 Q&A 보기</i>
           </div> 
         </div>
       </div>
@@ -57,35 +58,35 @@
           <li class="sidebar-brand">
             <a href="/users" style="font-size: 1.5em;">마이페이지</a>
           </li>
-            <br>
-            <li><a href="/users/match/${id}">내 매치글 보기</a></li>
-            <li><a href="/users/community/${id}" class="underline-on">내 커뮤니티글 보기</a></li>
-            <li><a href="/users/question/${id}">내 Q&A 보기</a></li>
-            <br>
-            <br>
-            <br>
+          <br>
+          <li><a href="/users/match/${id}">내 매치글 보기</a></li>
+          <li><a href="/users/community/${id}">내 커뮤니티글 보기</a></li>
+          <li><a href="/users/question/${id}" class="underline-on">내 Q&A 보기</a></li>
+          <br>
+          <br>
+          <br>
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
       
       <div style="margin: 0 auto; width: 80%;">
         <div class="container-fluid  p-5">       
-          <h2 class="text-center mt-5 fw-bold ">내 게시글</h2>
+          <h2 class="text-center mt-5 fw-bold ">내 Q&A</h2>
           <div class="container-fluid p-5 me-5 mr-5list-container ">
             <div class="card mb-1 p-3"  style="border: 3px solid #006f3e;">
-              <div class="card-header float-start">커뮤니티</div>
+              <div class="card-header float-start">Q&A</div>
               <div class="card-body">
                 <table class="table table-hover table-striped">
                   <thead>
                     <tr>
                     <th>번호</th>
-                    <th>카테고리</th>
                     <th>제목</th>
+                    <th>작성자</th>
                     <th>작성일</th>
                     </tr>
                   </thead>
-                  <tbody id="communityTableBody">
-                  <!-- 여기에 게시글 목록이 추가됨 -->
+                  <tbody id="questionTableBody">
+                  <!-- 여기에 q&a 목록이 추가됨 -->
                   </tbody>
                 </table>
               </div>
@@ -96,11 +97,10 @@
 
       <!-- 페이지네이션 -->
       <div class="pagination justify-content-center" id="pagination" >
-      <!-- 여기에 페이지 버튼들이 추가  -->
+        <!-- 여기에 페이지 버튼들이 추가  -->
       </div>
       <br>
       <br>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   
     <script>
@@ -119,7 +119,7 @@
         }
       }
 
-      const tbody = document.getElementById('communityTableBody');
+      const tbody = document.getElementById('questionTableBody');
       const paginationDiv = document.getElementById('pagination');
 
       //페이지네이션
@@ -136,7 +136,7 @@
         prevButton.classList.add('btn', 'btn-outline-secondary', 'me-2');
         prevButton.addEventListener('click', () => {
           if (currentPage > 1) {
-            fetchDatacommunity(currentPage - 1);
+            fetchDatamatch(currentPage - 1);
           }
         });
         paginationDiv.appendChild(prevButton);
@@ -149,7 +149,7 @@
             pageButton.classList.add('btn-custom');
           }
           pageButton.addEventListener('click', () => {
-            fetchDatacommunity(i);
+            fetchDatamatch(i);
           });
           paginationDiv.appendChild(pageButton);
         }
@@ -162,27 +162,10 @@
         nextButton.classList.add('btn', 'btn-outline-secondary');
         nextButton.addEventListener('click', () => {
           if (currentPage < totalPages) {
-            fetchDatacommunity(currentPage + 1);
+            fetchDatamatch(currentPage + 1);
           }
         });
         paginationDiv.appendChild(nextButton);
-      }
-
-      function getCategoryInKorean(category) {
-      switch(category) {
-        case 'daily':
-          return '자유게시판';
-        case 'equipment':
-          return '장비게시판';
-        case 'tip':
-          return '꿀팁게시판';
-        case 'market':
-          return '장터게시판';
-        case 'promotion':
-          return '홍보게시판';
-        default:
-          return category;
-        }
       }
 
       function fetchDatacommunity(page) {
@@ -199,26 +182,26 @@
         .then(data => { 
           const userid = data.user_id;
           console.log(userid)
-          fetch(`/community/list/` + userid + `?page=${page}`)
+          fetch(`/question/list/` + userid + `?page=${page}`)
           .then(response => response.json())
           .then(data => {
             tbody.innerHTML = ''; // 테이블 초기화
 
-            data.boards.forEach((community, index) => {
-            const row = document.createElement('tr');
-            const formattedDate = new Date(community.createdAt).toLocaleDateString();
-            row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${getCategoryInKorean(community.category)}</td>
-            <td>${community.title}</td>
-            <td>${formattedDate}</td>
-            `;
-            row.addEventListener('click', () => {
-              // 글 상세 페이지로 이동
-              window.location.href = `/community/read/${community._id}`;
+            data.boards.forEach((question, index) => {
+              const row = document.createElement('tr');
+              const formattedDate = new Date(question.createdAt).toLocaleDateString();
+              row.innerHTML = `
+              <td>${index + 1}</td>
+              <td>${question.title}</td>
+              <td>${question.writer}</td>
+              <td>${formattedDate}</td>
+              `;
+              row.addEventListener('click', () => {
+                // 글 상세 페이지로 이동
+                window.location.href = `/question/read/${question._id}`;
+              });
+              tbody.appendChild(row);
             });
-            tbody.appendChild(row);
-          });
 
             createPaginationButtons(data.totalPages, data.currentPage);
           })
@@ -229,6 +212,7 @@
 
       // 초기 데이터 로딩
       fetchDatacommunity(1)
+
       //사이드바 높이 동적으로 조절
       function setSidebarHeight() {
         const sidebar = document.getElementById('sidebar-wrapper');

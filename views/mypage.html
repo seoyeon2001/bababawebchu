@@ -10,29 +10,29 @@
     <title>PangPang</title>
     <style>
       .mypagecontent {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          width: 600px;
-          text-align: center;
-          margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 600px;
+        text-align: center;
+        margin: auto;
       }
     </style>
     <script>      
       fetch('/navbar')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("content").innerHTML = data;
-                // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
-                const token = sessionStorage.getItem('토큰');
-                if (token) {
-                    document.getElementById("logoutButton").style.display = "block";
-                } else {
-                    document.getElementById("logoutButton").style.display = "none";
-                }
-            })
-            .catch(error => console.error('Error:', error));
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("content").innerHTML = data;
+        // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
+        const token = sessionStorage.getItem('토큰');
+        if (token) {
+            document.getElementById("logoutButton").style.display = "block";
+        } else {
+            document.getElementById("logoutButton").style.display = "none";
+        }
+      })
+      .catch(error => console.error('Error:', error));
     </script>
   </head>
   <body>
@@ -58,17 +58,19 @@
             <a href="/users"  class="underline-on" style="font-size: 1.5em;">마이페이지</a>
           </li>
           <br>
-            <li><a href="/users/match/${id}">내 매치글 보기</a></li>
-            <li><a href="/users/community/${id}" >내 커뮤니티글 보기</a></li>
-            <br>
-            <br>
-            <br>
+          <li><a href="/users/match/${id}">내 매치글 보기</a></li>
+          <li><a href="/users/community/${id}" >내 커뮤니티글 보기</a></li>
+          <li><a href="/users/question/${id}" >내 Q&A 보기</a></li>
+          <br>
+          <br>
+          <br>
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
       <h2 class="text-center mt-5 fw-bold ">개인정보 수정</h2>
       <br>
       <br>
+
       <main class="mypagecontent" style="border: 3px solid #006f3e;">
         <!-- 아이디 정보 -->
         <div>아이디</div>
@@ -97,7 +99,7 @@
       <br> 
       <div style="display: flex; justify-content: flex-end; margin-right: 430px;">
         <button type="button" onclick="deleteAccount()" class="btn" style="color: white; background-color: #006f3e;">계정 탈퇴</button>
-    </div>
+      </div>
     <br>
     <br>
     <br>
@@ -108,7 +110,6 @@
         checkAuthentication(); // 페이지 로드 시 토큰 확인
         getUserId(); // 페이지 로드 시 아이디 확인
         getUserEmail(); // 페이지 로드 시 이메일 확인
-        // getMatchList(); // 페이지 로드 시 매치 리스트 가져오기
       });
 
       // 사용자의 인증 여부를 확인하는 함수
@@ -151,7 +152,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('user-email').innerText = data.user_email;
+          document.getElementById('user-email').innerText = data.user_email;
         })
         .catch(error => console.error('Error:', error));
       }
@@ -230,17 +231,17 @@
           .catch(error => console.error('Error:', error));
         }
       }
+
       //사이드바 높이 동적으로 조절
-    function setSidebarHeight() {
-          const sidebar = document.getElementById('sidebar-wrapper');
-          const windowHeight = window.innerHeight;
-          const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
-          sidebar.style.height = newHeight + 'px';
-        }
+      function setSidebarHeight() {
+        const sidebar = document.getElementById('sidebar-wrapper');
+        const windowHeight = window.innerHeight;
+        const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
+        sidebar.style.height = newHeight + 'px';
+      }
 
-        window.addEventListener('DOMContentLoaded', setSidebarHeight);
-        window.addEventListener('resize', setSidebarHeight);
-
+      window.addEventListener('DOMContentLoaded', setSidebarHeight);
+      window.addEventListener('resize', setSidebarHeight);
     </script>
   </body>
 </html>
