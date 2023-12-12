@@ -88,7 +88,7 @@ router.get("/read/:id", async (req, res, next) => {
       // 카테고리 한글로 변경
       function categoryKor(category) {
         if (category == 'popular') {
-          return '인기게시판';
+          return '자유게시판';
         } else if (category == 'daily') {
           return '일일게시판';
         } else if (category == 'equipment') {
@@ -139,7 +139,7 @@ router.get('/edit/:id', async (req, res, next) => {
       // 카테고리 한글로 변경
       function categoryKor(category) {
         if (category == 'popular') {
-          return '인기게시판';
+          return '자유게시판';
         } else if (category == 'daily') {
           return '일일게시판';
         } else if (category == 'equipment') {

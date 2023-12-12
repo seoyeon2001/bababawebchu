@@ -202,7 +202,6 @@
 #sidebar-wrapper {
   position: absolute;
   width: 250px;
-  height: 1300px;
   margin-left: -250px;
   background: #006f3e;
   overflow-x: hidden;
