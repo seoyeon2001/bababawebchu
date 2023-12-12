@@ -70,14 +70,14 @@ function formatCreatedAt(dateString) {
 
 /* GET Q&A 리스트 컨텐츠 페이지 */
 router.get("/read/:id", async (req, res, next) => {
-  const communityId = req.params.id;
+  const questionId = req.params.id;
 
   try {
-    const objectId = new ObjectId(communityId);
+    const objectId = new ObjectId(questionId);
     const result = await Question.findOne({ _id: objectId });
 
     if (result) {
-
+      result.content = result.content.replace(/\n/g, '<br />');
       // HTML 파일을 읽어 데이터를 삽입
       const htmlFilePath = path.join('views', 'read_qna.html');
       let html = fs.readFileSync(htmlFilePath, 'utf8');
@@ -99,3 +99,36 @@ router.get("/read/:id", async (req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+const ITEMS_PER_PAGE = 10; // 한 페이지에 보여줄 매치글의 수
+
+router.get("/list", async (req, res, next) => {
+  console.log('전체 리스트틀 불러옵니다.')
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+
+    const totalQuestions = await Question.countDocuments();
+    const totalPages = Math.ceil(totalQuestions / ITEMS_PER_PAGE);
+
+    const questionList = await Question.find({})
+      .sort({ createdAt: -1 })
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
+
+    // JSON 데이터를 먼저 클라이언트에게 반환합니다.
+    res.json({ 
+      boards: questionList, // questionList를 'boards'라는 이름으로 반환합니다.
+      currentPage: page,
+      hasNextPage: ITEMS_PER_PAGE * page < totalQuestions,
+      hasPrevPage: page > 1,
+      nextPage: page < totalPages ? page + 1 : null,
+      prevPage: page > 1 ? page - 1 : null,
+      totalPages: totalPages,
+    });
+  } catch (err) {
+    console.error("Error fetching question list:", err);
+    res.status(500).send("Error fetching question list");
+  }
+});
+
+module.exports = router;
