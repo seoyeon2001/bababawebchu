@@ -10,6 +10,46 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
     <title>PangPang</title>
+    <style>
+      table {
+        margin: 0 auto;
+        width: 1000px;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border: 2px #919191;
+      }
+
+      th, td {
+          border: 1px #919191;
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+          text-align: center; /* 가운데 정렬을 위해 추가 */
+      }
+
+      th {
+          background-color: #006f3e;
+          color: #ffffff;
+      }
+      .slide-container {
+        width: 800px;
+          /* overflow: hidden; */
+          margin: 0 auto;
+      }
+
+      .slide-title {
+        margin: 10px;
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .slide {
+        display: flex;
+      }
+
+      .slide td img {
+          width: 100px;
+      }
+  </style>
     <script>      
       fetch('/navbar')
             .then(response => response.text())
@@ -57,7 +97,70 @@
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
 
-    <p>연촌체전 경기 안내 페이지</p>
+    <!--연촌체전 공지사항-->
+    <h3 style="text-align: center; font-weight: bold; padding: 50px;">🏆️ 2023 연촌체전 공지사항 🏆️</h3>
+    
+    <!--안내사항 슬라이드-->
+    <div class="slide-container">
+      <ul class="slide">
+        <td>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/638/58342543/everytime-1681727222953.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=AYoJh2qtHptgCoriMflF6AWqc~vVLsjnwU9Jzh-amk~uIh23UZ5wPHEmtX99AgtiHYH9fT8UxjLBmCBQk3nrXnDg27gHJBWgAyBimloC16Luu9tegwtGjA2vpJq5FoRexPtRo2uO3PulJHFSUF0PFSfO3iDyy8otM4l9awKq7mTEW1yUPUVsqgH6b~UmuiDS7urfz7Ld8FVT9rKJZ8JYtjh3IgkLcIvkiSSRojnsVCpX5~k-XkkxIcBtMDtk8zV74ijb-XUElIGEkKqQ8aRf-ZXFL1r9-46acp0lh8vCGPBCIfSI-NGsVThXpPxGW~tCWlUm6enkG7f6xL8vfILwSw__" alt="종목별 안내사항" style="width: 50%; display: block; margin: 0 auto;"/>
+        </td>
+        <td>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/386/58344254/everytime-1681731086260.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=DnrC4Qz~nNwofzc~cNA06qIxCVFwhswbH8XJgW0IRfvEBGZ4U79euLJjgtEeQOMOuuEwqO~ewvx4U~E8cO8F2u1Xb0mbNPzDV6qDtvcj6~xiaRaXcau7NUt3yDt3BxVcOCHQa4hOVa3aPxuulsR689-GiyQotxe1zbEs~wkDvuHQ9BfDbmodz3vzZk1IatZYwYTAO3trTmEw6k3Vim~0yTRqSeeQcWuhextbAyhI4DUseBxeC2tyQkujCA3akX9N7nhEIlv8nHKFeQe1nzpY0SfwaqwqBqNnD578RKMTSGpMq8hfivnW~xsxiNxkNAazzv3qLrjIVzINzJ4X7GIbnA__" alt="공통사항" style="width: 50%; display: block; margin: 0 auto;" />
+        </td>
+        <!-- <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/991/58344256/everytime-1681731089693.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=WcyV3mD2WdAUMA4qrZf91GObWAGnJDEU3MrUweG1EOY6jWIHk-9sq~o5pPzhgjZzJdIco1-mPY96R9WcEugRLoc7qV~cZ4i-EJJmt-p0bWPQaa4Wcq2cLKdZmoCwAmFTbBa~08pkPie7kXCNwEw3ju5CKAK3QK~vCC5TYxBcg~CYW1gi~48iskjLKi~zupQpdyD7rG-fvHtw9DRxiN8MOSFEd-oOgCQzo9AickpkhqhysnKrnlahonLP~WliL3qWEqI0qdSCUiW1Nj948cBe~WlYWvGtEJYroEw~02ByBHhfbNsmJsesXf5Az9Uu5aSMFJV4Ch4WktviY0EHTlOcvg__" alt="풋살" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/580/58344257/everytime-1681731090333.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=ddFGVfDWdY9VkItaUvAG6jVDIvs6L91XDu0zO~qz579~m6lRBi4fKS~xl932YHfWGBlH2yWn9r8nY~SUVN83O0PYFXEF7D91NpoW-CNG37IPTZBBbUBj93h1YyNtg~LLI9CmCKQ~ULb9bdibBN7S34vhLk1MT4pio~sJRi2p1rdd9tpaHi-okH4ldqcS8FHokKbDxxKZPsre21Wd2KDV4ddU6jMwNfuZRGxvLOXIM6HOIn4jkxgQNXOJktclpXtF~ph6G8DewvtvfUk9js0jrIxDdan3TPlqFSwNiFyob7TPWM-PRbIz3ThEsY6tied1-7QIWerJR-h8FuqT4mTsaA__" alt="농구" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/14/58344258/everytime-1681731091300.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=numLpS~pkxcxZQgQ2kick9hrQvSC33Q495alFrhZpZmhJr6NxsD6ZWXaXLG2tlSggrc4lGsuuIsP2u4Pj~5l2O1nEk2cFn-5wRZBXvqKIH4Z5zvRIqpuUlxy6xNo81BQPak8A3NHwqo0hiQwNBPamFhIlx-AceU-WWv9D1GoFVCVUImkvkCZaO58K-RNzPy3N8nIcNGJ5RxrZhshtyH91EplKqBMP7MoV8BDFXvENzo1QjTfY7CdYSWbX9rNFHnUQYXlPbX2GOXrNmeNb~~lKWkTA3Diod4AwLNiF709EoLJU5Gm3fMrjZPml0etTr2R~CUM0dOsrg0C4a02mXh~yQ__" alt="피구" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/322/58344260/everytime-1681731092253.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=GTwey~C9FBkWxwtGQmlJoOe2wdY6SYh8tJOHGl4GSwHceOLRVHcH0M-fpkP4oUXvxcW4NyCBoj9KGJvvaUAdymbb1fv59d3LkjlHEPi2vTFM3nPo0dYKA2VpgCQpL3qiudS887DoP07Nj5JMFtqt1gbQfOrTOj0GqvplKGcuIWa6KlFS2N9MYZ3J~2r6TEUYyS3QHul5jZe43-TJXN7pdR3Nx7Pmcpy~UH7E-KvAWoc1wnM1PXz665ORh1KgH461Oj6610H-F5I9cXtS0NwB4cDJKLf8ZUivsYbLKkQFxU75j2QdZWqtCR8OH5oBtzEGmHxyjpLaoew5XwfsmRu51w__" alt="탁구" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/758/58344261/everytime-1681731092900.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=Yx5TwzM9Ncdy2bAj2dKRsbaN8zQfvtNVtbp6n2vAAzavP5a2UpY0lx7jXVoqoQHtW9ckuw3aWPSg1pDAUXA554jykIVWU5v03XU3~oGRv1VLSpRY~35JmDIOSt0lxfT9c1w-0f6CqLfEqIVaBSMWHjfv~zGwHKTCb76~WsPBNfXGRMZMCfNp9EuNOK7dFYvrPMOTXk0mcZWpXChAKv2QIl6tFRyfUEMDbcVgpA5uZ0x04VEE0VGnHdqhaDyKB4Bw9HX2PQ8b46onpc00klPHKdrw6BeewssD6mseCB8eGGnaoSXxrC7u-3WJ7QpOMGpI-AkCyf8m4JsZTY-K0hEm0Q__" alt="볼링" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/130/58344262/everytime-1681731093415.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=c-gJAEH7FQxiskgu6lkjYGAGdiFX18nfvMUNaPFDj5hAzWsfsToLIat2bpiIQpKJB8An2CXRDGGuKDgMqQWf9U98IrNRncoE7rsIis8gPb2j5GEKabrTFhkZ5oXmXdGPlBuSRF1nvOjUdUUZ66jyBd1GoDBZCm8tntHMTr9eZTtac~xhaeDYmrG6dEMfJT1DbjqO~yH8LyOhxfSn7aXBDnKeIy5acmnZxYFIldgZ5Ej0ou1LEUUmSamwR0BDSX-PuJ8QK3sxzN~0PDAhB582aaTtpp7YkiKnmgGvT4km~LPKsWJQaWakVYq9mrGEIhhsDclN6bLasELcuGj1S3bNjQ__" alt="줄다리기" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/872/58344263/everytime-1681731094173.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=cuDUdRYvPUcuR44uyLi9~r-ZdSybw~nhIBE~fv-lJPW7nLaRfN1lDqqhV-yJxnZEJmel2YTHOS~4oGRPgANrv1u~oE5XhTYC3TCqGr1PN9CbK2G2a6wzC~5zZffulmYneqP8VJJOMFtHnUcD6Wxj06U3isBq4-0RjUgpGpPbMyGgCy6Bez7GOFLaYuuAMoB4wm~NL-tQDd~FcVkTfnQNcELBGkgxuEk-Cw~aFI85LOeTihTZGHlBxHap64jRekoExWjEczhOTQqNysqKyDLsV7ENS6Dwri3bsRNtyV2GLg0p6bbkMrYezPFKNnBnEHe08H5~yJoLD42cJ0sUGzsWTQ__" alt="단체줄넘기" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/40/58344266/everytime-1681731094820.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=Nnbi6zM8mSdkLcw75GLfV2f9PbubWwQ2w8kHkg40WMD0GdHEJB67EI6sYthedo7i~Pv~Ccdeg6KqhPaFXpiisIvk8a~I3bRMrIlWN5UrScku0A4jv-skzD2puiCViXtsZdM89iU2Pv5NbSe1~RqQ0iNfkIVok-JIdXKSuiQnUV~ySTA-ArUjQFkN3EzQc07op0IhCxBrv-R43Kfx4dkjFzNwrfoPcD0G1RtUn4CMHWXaOuxtcnPNxPuXJE0vAmFtqZFJzdIH6qyKSaIFZI3~A34YCmsuTTI9TAD-5ZQ3m8rbkiAT~RCAbl5JirWtrM7I8bdt-clQf98cVBTVOiIvVQ__" alt="리그오브레전드" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/386/58344267/everytime-1681731095452.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=EW7mhl48-BEDu2c3qNiSHV5GYcioz1onp-cWBMbsmtmbfqyx1X8xIO-VJ~YvzUIqHDUaNNUx8EhhqPaRkcKnd~A9~T~3SkbvjOMvIjGJq2A5p0p4EVPrew~z9kWYhzeBBm93dc2CpvhDLoDHkTFd~Xxzuwd6cfmxxQoG1oB~bLMsXUa6BOuGRdpiAY-0Sbms1jmD5zHBLwn-KalvD2oU4QMZkFr-c-ShrduJdAnWMh2jqCgpE8cMq2UEsr~qTlQaG38xCYKYyJxtojWX9RFhceLSMpVp2X9oE~ohrdoScfdMn8BgldD96xCRBOzr8v8OaQG1-GKSszFwY77R3-EPXA__" alt="피파온라인4" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/181/58344269/everytime-1681731096093.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=YS0cqgo~S48LpZXygwhrWInwzZHZBCJ4j3chv4RUhGxYm4NyobblyjL2G3~AqK9cZQVhcgNWubz0iNvjU~ixgAuSbmH4K5Ol2fnoE2yZ-oboBRHbmReGBg~7mGltqVn~vLc5Hnx2BgTxZxM0-HvhM5IsXdF8NFWhcViT5n8QzbB3SI3iOISXZF4djREeBTpTR5E7p1nCD19aqF25E88i8yzKE1zxBDF79epu6gLcybm9niRYCES5pAb~eKusxVIudpmLhftH031DWW9osRxeMoqqleDGr~v8x9nx21oE4TG7yfhynlQL3w2jSwrmXMnkDtdGCAopwNrHx2iqMiZ5UA__" alt="오버워치" />
+        </li>
+        <li>
+          <img src="https://cf-ea.everytime.kr/attach_thumbnail/784/58344271/everytime-1681731096733.jpg?Expires=1702382363&Key-Pair-Id=APKAICU6XZKH23IGASFA&Signature=OWgKbv6Q1Ja71zYZIovOQlD8VsSF4Yo4gJu7mM~KPZXN8hkxhjg7vor3lv5-i3gZjCbd26X7xtVYizl8lg8LTGFUbuwJN3nGjufEw4AAW99sLDg1VPyIBSzv941B3pUXg~2Qm9upuuquXpXCM~XkD6pH09KqpPYd0qHML66ehqBPxX5bRg-Krmu2aAJrDotwBjUEemJxe1~6ETKE40bQWTCTdV8X~xWsajrcD-72lblW05~L0wRoX~JXnkpSU5kAWD29~i09Xaw0QI0WNslyxbciOGo7cB69nV~GsJyHfH4wK0iUU0Qe18zdTZjFelVinxhmyHtUbkbBh-oeOEdY1w__" alt="카트라이더 드리프트" />
+        </li> -->
+      </ul>
+    </div>
+
+    <a href="https://instagram.com/kwu_studentcouncil?igshid=MzMyNGUyNmU2YQ==" class="btn" style="margin-left: 1020px; background-color: #006f3e; color:white;">광운대 총학생회 인스타그램 ▶</a>
+    <table>
+        <tr>
+          <th>일정</th>
+          <td>23.05.01 ~ 23.05.31 (순연시 06.07까지 진행됩니다.)</td>
+        </tr>
+        <tr>
+          <th>스포츠 종목</td>
+          <td>풋살, 농구, 피구, 탁구, 볼링, 줄다리기, 단체줄넘기</td>
+        </tr>
+        <tr>
+          <th>e-sports</td>
+          <td>리그오브레전드, 피파온라인4, 카트라이더 드리프트, 오버워치</td>
+        </tr>
+  </table>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script>
       //사이드바 높이 동적으로 조절
