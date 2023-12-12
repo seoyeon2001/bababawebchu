@@ -84,8 +84,8 @@
               
                     <span style='float:right'>
                         <a href="/community" class="btn btn-success">목록</a>
-                        <a href="/community/edit" class="btn btn-success">수정</a>
-                        <a href="" class="btn btn-success">삭제</a>
+                        <a id="editButton" class="btn btn-success">수정</a>
+                        <a id="deleteButton" class="btn btn-success" onclick="deleteCommunity()">삭제</a>
                         <a href="/community/write" class="btn btn-success">글쓰기</a>
                     </span>
             </table>
@@ -157,6 +157,13 @@
       document.addEventListener('DOMContentLoaded', function() {
         checkAuthentication(); // 페이지 로드 시 토큰 확인
         getComment(); // 페이지 로드 시 댓글 로드
+
+      // 보드 ID를 가져와서 수정 버튼의 href 속성을 설정
+      const boardId = window.location.pathname.split('/').pop();
+        const editButton = document.getElementById('editButton');
+        if (editButton) {
+          editButton.href = `/community/edit/${boardId}`;
+        }
       });
 
       // 사용자의 인증 여부를 확인하는 함수
@@ -257,6 +264,39 @@
           console.error('Error:', error);
         });
       }
+
+      function deleteCommunity() {
+        const boardId = window.location.pathname.split('/').pop();
+        const token = sessionStorage.getItem('토큰');
+
+        // 사용자에게 삭제 확인 메시지 표시
+        if (confirm('정말로 삭제하시겠습니까?')) {
+          // '예'를 선택한 경우
+          fetch(`/community/delete/${boardId}`, {
+            method: 'DELETE',
+            headers: {
+              'authorization': `${token}`,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('매치가 성공적으로 삭제되었습니다.');
+              window.location.href = '/community'; // 삭제 완료 후 커뮤니티 목록 페이지로 이동
+            } else {
+              alert('매치 삭제에 실패하였습니다.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        } else {
+          // '아니오'를 선택한 경우
+          alert('삭제가 취소되었습니다.');
+        }
+      }
+
       //사이드바 높이 동적으로 조절
     function setSidebarHeight() {
           const sidebar = document.getElementById('sidebar-wrapper');

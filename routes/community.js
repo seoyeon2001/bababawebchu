@@ -71,23 +71,6 @@ function formatCreatedAt(dateString) {
   return formattedDate;
 }
 
-// 카테고리 한글로 변경
-function categoryKor(gender) {
-  if (gender == 'popular') {
-    return '인기게시판';
-  } else if (gender == 'daily') {
-    return '일일게시판';
-  } else if (gender == 'equipment') {
-    return '장비게시판';
-  } else if (gender == 'tip') {
-    return '꿀팁게시판';
-  } else if (gender == 'market') {
-    return '장터게시판';
-  } else if (gender == 'promotion') {
-    return '홍보게시판';
-  }
-}
-
 /* GET 커뮤니티 리스트 컨텐츠 페이지 */
 router.get("/read/:id", async (req, res, next) => {
   const communityId = req.params.id;
@@ -101,6 +84,23 @@ router.get("/read/:id", async (req, res, next) => {
       // HTML 파일을 읽어 데이터를 삽입
       const htmlFilePath = path.join('views', 'read_board.html');
       let html = fs.readFileSync(htmlFilePath, 'utf8');
+
+      // 카테고리 한글로 변경
+      function categoryKor(category) {
+        if (category == 'popular') {
+          return '인기게시판';
+        } else if (category == 'daily') {
+          return '일일게시판';
+        } else if (category == 'equipment') {
+          return '장비게시판';
+        } else if (category == 'tip') {
+          return '꿀팁게시판';
+        } else if (category == 'market') {
+          return '장터게시판';
+        } else if (category == 'promotion') {
+          return '홍보게시판';
+        }
+      }
 
       // 데이터를 HTML에 삽입
       html = html.replace('{{community.title}}', result.title);
@@ -118,6 +118,99 @@ router.get("/read/:id", async (req, res, next) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/* GET edit community page. */
+router.get('/edit/:id', async (req, res, next) => {
+  const communityId = req.params.id;
+
+  try {
+    const objectId = new ObjectId(communityId);
+    const result = await Community.findOne({ _id: objectId });
+    const resultObject = result.toObject();
+
+    if (resultObject) {
+
+      // HTML 파일을 읽어 데이터를 삽입
+      const htmlFilePath = path.join('views', 'edit_community.html');
+      let html = fs.readFileSync(htmlFilePath, 'utf8');
+
+      // 카테고리 한글로 변경
+      function categoryKor(category) {
+        if (category == 'popular') {
+          return '인기게시판';
+        } else if (category == 'daily') {
+          return '일일게시판';
+        } else if (category == 'equipment') {
+          return '장비게시판';
+        } else if (category == 'tip') {
+          return '꿀팁게시판';
+        } else if (category == 'market') {
+          return '장터게시판';
+        } else if (category == 'promotion') {
+          return '홍보게시판';
+        }
+      }
+
+      // 데이터를 HTML에 삽입
+      html = html.replace('{{community.title}}', resultObject.title);
+      html = html.replace('{{community.writer}}', resultObject.writer);
+      html = html.replace('{{community.createdAt}}', resultObject.createdAt);
+      html = html.replace('{{community.content}}', resultObject.content);
+      html = html.replace('{{community.category}}', categoryKor(result.category));
+      
+      
+      // 클라이언트에 HTML 응답 전송
+      res.send(html);
+    } else {
+      res.status(404).json({ error: '글을 찾을 수 없습니다.' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.patch('/edit/:id', async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    const updatedData = req.body;
+
+    console.log(updatedData);
+    
+    const updatedCommunity = await Community.findByIdAndUpdate(boardId, updatedData, { new: true });
+
+    if (!updatedCommunity) {
+      return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    res.status(200).json({ message: '게시글이 성공적으로 수정되었습니다.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: '서버 오류입니다.' });
+  }
+});
+
+/* DELETE community page. */
+router.delete('/delete/:id', async (req, res) => {
+  const communityId = req.params.id;
+
+  try {
+    // 보드 ID에 해당하는 데이터를 찾아서 삭제
+    const result = await Community.findByIdAndDelete(communityId);
+
+    if (result) {
+      // 성공적으로 삭제된 경우
+      res.json({ success: true, message: '게시글이 성공적으로 삭제되었습니다.' });
+    } else {
+      // 매치 ID에 해당하는 데이터가 없는 경우
+      res.status(404).json({ success: false, message: '게시글을 찾을 수 없습니다.' });
+    }
+  } catch (error) {
+    // 삭제 과정에서 오류가 발생한 경우
+    console.error('Error deleting community:', error);
+    res.status(500).json({ success: false, message: '게시글 삭제에 실패하였습니다.' });
   }
 });
 
