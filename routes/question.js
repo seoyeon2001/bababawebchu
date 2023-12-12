@@ -131,4 +131,35 @@ router.get("/list", async (req, res, next) => {
   }
 });
 
+
+router.get("/list/:userid", async (req, res, next) => {
+  console.log('내가 작성한 Q&A 리스트틀 불러옵니다.')
+  try {
+    const userid = req.params.userid;
+    const page = parseInt(req.query.page) || 1;
+    const skipItems = (page - 1) * ITEMS_PER_PAGE;
+
+    const totalQuestions = await Question.countDocuments();
+    const totalPages = Math.ceil(totalQuestions / ITEMS_PER_PAGE);
+
+    const myquestionList = await Question.find({writer: userid})
+      .sort({ createdAt: -1 })
+      .skip(skipItems)
+      .limit(ITEMS_PER_PAGE);
+
+    // JSON 데이터를 먼저 클라이언트에게 반환합니다.
+    res.json({ 
+      boards: myquestionList, // questionList를 'boards'라는 이름으로 반환합니다.
+      currentPage: page,
+      hasNextPage: ITEMS_PER_PAGE * page < totalQuestions,
+      hasPrevPage: page > 1,
+      nextPage: page < totalPages ? page + 1 : null,
+      prevPage: page > 1 ? page - 1 : null,
+      totalPages: totalPages,
+    });
+  } catch (err) {
+    console.error("Error fetching question list:", err);
+    res.status(500).send("Error fetching question list");
+  }
+});
 module.exports = router;

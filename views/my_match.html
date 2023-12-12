@@ -4,35 +4,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index_style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <title>PangPang</title>
     <style>
       .mypagecontent {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          width: 600px;
-          text-align: center;
-          margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 600px;
+        text-align: center;
+        margin: auto;
       }
     </style>
+
     <script>      
       fetch('/navbar')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("content").innerHTML = data;
-                // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
-                const token = sessionStorage.getItem('토큰');
-                if (token) {
-                    document.getElementById("logoutButton").style.display = "block";
-                } else {
-                    document.getElementById("logoutButton").style.display = "none";
-                }
-            })
-            .catch(error => console.error('Error:', error));
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("content").innerHTML = data;
+        // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
+        const token = sessionStorage.getItem('토큰');
+        if (token) {
+          document.getElementById("logoutButton").style.display = "block";
+        } else {
+          document.getElementById("logoutButton").style.display = "none";
+        }
+      })
+      .catch(error => console.error('Error:', error));
     </script>
   </head>
   <body>
@@ -58,45 +59,46 @@
             <a href="/users" style="font-size: 1.5em;">마이페이지</a>
           </li>
           <br>
-            <li><a href="/users/match/${id}" class="underline-on" >내 매치글 보기</a></li>
-            <li><a href="/users/community/${id}" >내 커뮤니티글 보기</a></li>
-            <br>
-            <br>
-            <br>
+          <li><a href="/users/match/${id}" class="underline-on">내 매치글 보기</a></li>
+          <li><a href="/users/community/${id}">내 커뮤니티글 보기</a></li>
+          <li><a href="/users/question/${id}">내 Q&A 보기</a></li>
+          <br>
+          <br>
+          <br>
         </ul>
       </div>
       <hr class="my-4" style="height: 3px; background-color: #006f3e;">
       
       <div style="margin: 0 auto; width: 90%;">
-        <div class="container-fluid  p-5">       
-            <h2 class="text-center mt-5 fw-bold ">내 매치글</h2>
-            <div class="container-fluid p-5 me-5 mr-5list-container ">
-              <div class="card mb-1 p-3"  style="border: 3px solid #006f3e;">
-                <div class="card-header float-start">매치</div>
-                <div class="card-body">
-                  <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>번호</th>
-                        <th>모집 상태</th>
-                        <th>매치일</th>
-                        <th>운동종목</th>
-                        <th>제목</th>
-                        <th>작성일</th>
-                      </tr>
-                    </thead>
-                    <tbody id="matchTableBody">
-                    <!-- 여기에 게시글 목록이 추가됨 -->
-                    </tbody>
-                  </table>
-                </div>
+        <div class="container-fluid p-5">       
+          <h2 class="text-center mt-5 fw-bold">내 매치글</h2>
+          <div class="container-fluid p-5 me-5 mr-5list-container">
+            <div class="card mb-1 p-3" style="border: 3px solid #006f3e;">
+              <div class="card-header float-start">매치</div>
+              <div class="card-body">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>모집 상태</th>
+                      <th>매치일</th>
+                      <th>운동종목</th>
+                      <th>제목</th>
+                      <th>작성일</th>
+                    </tr>
+                  </thead>
+                  <tbody id="matchTableBody">
+                  <!-- 여기에 게시글 목록이 추가됨 -->
+                  </tbody>
+                </table>
               </div>
             </div>
+          </div>
         </div>
       </div>
 
       <!-- 페이지네이션 -->
-      <div class="pagination justify-content-center" id="pagination1" >
+      <div class="pagination justify-content-center" id="pagination" >
         <!-- 여기에 페이지 버튼들이 추가  -->
       </div>
       <br>
@@ -119,42 +121,14 @@
         }
       }
 
-      function deleteAccount() {
-        const token = sessionStorage.getItem('토큰'); 
-
-        if (confirm("정말로 탈퇴하시겠습니까?")) {
-        const confirmPassword = prompt('비밀번호를 입력하세요');
-
-        fetch("/users/delete", {
-            method: 'DELETE',
-            headers: { 
-                'authorization': `${token}`,
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify({
-                password: confirmPassword,
-            }),
-        })
-        .then(response => { return response.json(); })
-        .then(data => { 
-            alert(data.message); 
-            if (data.state) {
-            sessionStorage.removeItem('토큰');
-            location.href = '/';
-            }
-        })
-        .catch(error => console.error('Error:', error));
-        }
-      }
-
-      const tbody1 = document.getElementById('matchTableBody');
-      const paginationDiv1 = document.getElementById('pagination1');
+      const tbody = document.getElementById('matchTableBody');
+      const paginationDiv = document.getElementById('pagination');
 
       //페이지네이션
       const ITEMS_PER_PAGE = 10;
 
       function createPaginationButtons(totalPages, currentPage) {
-        paginationDiv1.innerHTML = ''; // 이전 버튼 초기화
+        paginationDiv.innerHTML = ''; // 이전 버튼 초기화
 
         const prevButton = document.createElement('button');
         prevButton.innerHTML = `
@@ -167,7 +141,7 @@
             fetchDatamatch(currentPage - 1);
           }
         });
-        paginationDiv1.appendChild(prevButton);
+        paginationDiv.appendChild(prevButton);
 
         for (let i = 1; i <= totalPages; i++) {
           const pageButton = document.createElement('button');
@@ -179,7 +153,7 @@
           pageButton.addEventListener('click', () => {
             fetchDatamatch(i);
           });
-          paginationDiv1.appendChild(pageButton);
+          paginationDiv.appendChild(pageButton);
         }
 
         const nextButton = document.createElement('button');
@@ -193,9 +167,8 @@
             fetchDatamatch(currentPage + 1);
           }
         });
-        paginationDiv1.appendChild(nextButton);
+        paginationDiv.appendChild(nextButton);
       }
-
 
       function fetchDatamatch(page) {
         const token = sessionStorage.getItem('토큰'); 
@@ -207,14 +180,14 @@
             'Content-Type': 'application/json'
           },
         })
-        .then(response => { return response.json()})
+        .then(response => { return response.json() })
         .then(data => { 
           const userid = data.user_id;
-          console.log(userid)
+
           fetch(`/match/list/` + userid + `?page=${page}`)
           .then(response => response.json())
           .then(data => {
-            tbody1.innerHTML = ''; // 테이블 초기화
+            tbody.innerHTML = ''; // 테이블 초기화
 
             data.boards.forEach((matches, index) => {
               const row = document.createElement('tr');
@@ -232,29 +205,29 @@
                 // 글 상세 페이지로 이동
                 window.location.href = `/match/read/${matches._id}`;
               });
-              tbody1.appendChild(row);
+              tbody.appendChild(row);
             });
 
             createPaginationButtons(data.totalPages, data.currentPage);
           })
           .catch(error => console.error('Error:', error));
-          
         })
         .catch(error => console.error('Error:', error));
       }
 
-// 초기 데이터 로딩
-fetchDatamatch(1);
-//사이드바 높이 동적으로 조절
-function setSidebarHeight() {
-          const sidebar = document.getElementById('sidebar-wrapper');
-          const windowHeight = window.innerHeight;
-          const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
-          sidebar.style.height = newHeight + 'px';
-        }
+      // 초기 데이터 로딩
+      fetchDatamatch(1);
+      
+      //사이드바 높이 동적으로 조절
+      function setSidebarHeight() {
+        const sidebar = document.getElementById('sidebar-wrapper');
+        const windowHeight = window.innerHeight;
+        const newHeight = windowHeight + 120; // 현재 창 높이에 500px 추가
+        sidebar.style.height = newHeight + 'px';
+      }
 
-        window.addEventListener('DOMContentLoaded', setSidebarHeight);
-        window.addEventListener('resize', setSidebarHeight);
+      window.addEventListener('DOMContentLoaded', setSidebarHeight);
+      window.addEventListener('resize', setSidebarHeight);
     </script>
   </body>
 </html>
