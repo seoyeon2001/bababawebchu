@@ -16,7 +16,7 @@
               .then(response => response.text())
               .then(data => {
                   document.getElementById("content").innerHTML = data;
-                  // navbar.html이 로딩된 후에 버튼 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
+                  // navbar.html이 로딩된 후에 토큰 상태를 확인하고 로그인/로그아웃 버튼을 제어하는 스크립트를 추가합니다.
                   const token = sessionStorage.getItem('토큰');
                   if (token) {
                       document.getElementById("logoutButton").style.display = "block";
@@ -26,196 +26,290 @@
               })
               .catch(error => console.error('Error:', error));
       </script>
+      <style>
+        .card{
+            margin: 20px 20px ;
+            border: 2px solid white;
+        }
+        .btn{
+            font-size: 17px;
+        }
+      </style>
   </head>
   <body>
     <!-- 네비게이션바 -->
     <div id='content'></div>
-
-    <div class="row mt-5"></div> <!--여백-->
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 px-4 mb-4"> 
-                <div class="card">
-                    <div class="card-body">
-                        <!--날씨 위젯-->
-                        <div id="ww_7670e5ad3bc11" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl4479"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://sharpweather.com/ko/seoul/" id="ww_7670e5ad3bc11_u" target="_blank">날씨 시간별 서울</a></div>
-                        <script async src="https://app2.weatherwidget.org/js/?id=ww_7670e5ad3bc11"></script>  
-                    </div>
-                </div>
-            </div>
-        
-            <!--바로가기 위젯-->
-            <div class="col-md-6 px-4 mb-4"> 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <a href="/users" class="btn btn-outline-success btn-lg btn-block">
-                                    <strong>내 매치 현황</strong>
-                                    <br />
-                                    <span>실시간 예약정보를 한 눈에</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <a href="/help/faq" class="btn btn-outline-success btn-lg btn-block">
-                                    <strong>자주묻는 질문</strong>
-                                    <br />
-                                    <span>자주묻는 질문을 확인하세요</span>
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="/help/qna" class="btn btn-outline-success btn-lg btn-block">
-                                    <strong>Q&A</strong>
-                                    <br />
-                                    <span>궁금한 점을 질문해보세요</span>
-                                </a>
-                            </div>
-                        </div>       
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="page-header theme-bg-dark py-5 text-center position-relative" >
+	    <div class="container">
+            <br>
+            <br>
+		    <h3 class="page-heading single-col-max mx-auto" style="font-weight: bold;">여러분의 스포츠 파트너를 찾아보세요!</h3>
+	    </div>
     </div>
-
-        <div class="row mt-5"></div> <!--여백-->
-            <div class="row">
-                <div class="col-md-6 px-4 mb-4"> 
-                    <div class="card">
-                        <div class="card-body text-center"> <!-- 달력을 가운데 정렬 -->
-                            <!--달력-->
-                            <table class="Calendar">
-                                <thead>
-                                    <tr>
-                                        <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
-                                        <td colspan="5">
-                                            <span id="calYear"></span>년
-                                            <span id="calMonth"></span>월
-                                        </td>
-                                        <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>일</td>
-                                        <td>월</td>
-                                        <td>화</td>
-                                        <td>수</td>
-                                        <td>목</td>
-                                        <td>금</td>
-                                        <td>토</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-        
-            
-                <div class="col-md-6 px-4 mb-4"> 
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">오늘 올라온 매치글이 궁금하다면?</h5>
-                            <p class="card-text"><br/>지금 바로 스포츠 파트너를 찾아보세요!<br/><br/></p>
-                            <a href="/match" class="btn" style="background-color: #006f3e; color: white;">Go Match!</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <hr class="my-4" style="height: 3px; background-color: #006f3e;">
     
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-        
-        <!--달력-->
-        <script>
-            window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
 
-            let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
-            let today = new Date();     // 페이지를 로드한 날짜를 저장
-            today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
+    <div class="container-fluid" style="margin: 0 auto; width: 80%;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card bg-default" style="margin-bottom: 40px;">
+                            <div class="card-body">
+                              <table class="table table-hover table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>커뮤니티</th>
+                                    <th>제목</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="communityTableBody">
+                                <!-- 여기에 게시글 목록이 추가됨 -->
+                                </tbody>
+                              </table>
+                            </div>
+                      </div>
+                    </div>
+                    <!--커뮤니티-->
+                    <div class="col-md-6">
+                        <div class="card" style="padding: 10px; ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                 
+                                    <button type="button" class="btn" style="width: 600px; height: 110px; background-color: #006f3e; color:white;">
+                                        ✏️ 나의 매치글
+                                    </button>
+                                </div>
+                            </div>
+                                <div class="row gx-50">
+                                    <div class="col-md-4">
+                                            
+                                        <button type="button" class="btn" style="width: 190px; height: 110px; background-color: #006f3e; color:white;">
+                                            📌 공지사항
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                            
+                                        <button type="button" class="btn" style="width: 190px; height: 110px; background-color: #006f3e; color:white;">
+                                            ❔️ Q&A
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                            
+                                        <button type="button" class="btn" style="width: 190px; height: 110px; background-color: #006f3e; color:white;">
+                                            📄 FAQ
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                     
+                                        <button type="button" class="btn" style="width: 600px; height: 110px; background-color: #006f3e; color:white;">
+                                            🔗 노원구 시설관리공단
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!--달력-->
+                        <div class="card">
+                            <div class="card-body">
+                                운동하고 싶은 날을 선택해보세요!
+                                
+                                <table class="Calendar">
+                                    <thead>
+                                        <tr>
+                                            <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+                                            <td colspan="5">
+                                                <span id="calYear"></span>년
+                                                <span id="calMonth"></span>월
+                                            </td>
+                                            <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>일</td>
+                                            <td>월</td>
+                                            <td>화</td>
+                                            <td>수</td>
+                                            <td>목</td>
+                                            <td>금</td>
+                                            <td>토</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <!--날씨-->
+                        <div class="card text-center">
+                            <div class="card-body" >
+                                <div class="row" style=" width: 464px;" >
+                                    <div class="col-md-12">
+                                        <div id="ww_ef52dafbb06df" v='1.3' loc='id' a='{"t":"responsive","lang":"ko","sl_lpl":1,"ids":["wl4479"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://sharpweather.com/ko/seoul/" id="ww_ef52dafbb06df_u" target="_blank">서울 날씨</a></div><script async src="https://app2.weatherwidget.org/js/?id=ww_ef52dafbb06df"></script>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="ww_1dca7758b9d74" v='1.3' loc='id' a='{"t":"horizontal","lang":"ko","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>More forecasts: <a href="https://sharpweather.com/ko/seoul/" id="ww_1dca7758b9d74_u" target="_blank">서울 날씨</a></div><script async src="https://app2.weatherwidget.org/js/?id=ww_1dca7758b9d74"></script>
+                                    </div>
+                                </div>
 
-            // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
-            function buildCalendar() {
+                                </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+    const tbody = document.querySelector('tbody');
+    
+    function getCategoryInKorean(category) {
+      switch(category) {
+        case 'daily':
+          return '자유게시판';
+        case 'equipment':
+          return '장비게시판';
+        case 'tip':
+          return '꿀팁게시판';
+        case 'market':
+          return '장터게시판';
+        case 'promotion':
+          return '홍보게시판';
+        default:
+          return category;
+      }
+    }
+    function fetchData(page) {
+        fetch(`/community/list?page=${page}`)
+            .then(response => response.json())
+            .then(data => {
+            tbody.innerHTML = ''; // Clear the table
 
-                let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
-                let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+            // Limiting to display only 5 posts or posts available if less than 5
+            const numberOfPosts = Math.min(7, data.boards.length);
 
-                let tbody_Calendar = document.querySelector(".Calendar > tbody");
-                document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
-                document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+            for (let index = 0; index < numberOfPosts; index++) {
+                const community = data.boards[index];
+                const row = document.createElement('tr');
+                const formattedDate = new Date(community.createdAt).toLocaleDateString();
+                row.innerHTML = `
+                <td>${getCategoryInKorean(community.category)}</td>
+                <td>${community.title}</td>
+                `;
+                row.addEventListener('click', () => {
+                // Redirect to the detailed view of the community
+                window.location.href = `/community/read/${community._id}`;
+                });
+                tbody.appendChild(row);
+            }
+            })
+            .catch(error => console.error('Error:', error));
+        }
 
-                while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
-                    tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
-                }
-
-                let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
-
-                for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
-                    let nowColumn = nowRow.insertCell();        // 열 추가
-                }
-
-                for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
-
-                    let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+    // 초기 데이터 로딩
+    fetchData(1);
+    
 
 
-                    let newDIV = document.createElement("p");
-                    newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
-                    nowColumn.appendChild(newDIV);
 
-                    if (nowDay.getDay() == 6) {                 // 토요일인 경우
-                        nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
-                    }
 
-                    if (nowDay < today) {                       // 지난날인 경우
-                        newDIV.className = "pastDay";
-                    }
-                    else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
-                        newDIV.className = "today";
-                        newDIV.onclick = function () { choiceDate(this); }
-                    }
-                    else {                                      // 미래인 경우
-                        newDIV.className = "futureDay";
-                        newDIV.onclick = function () { choiceDate(this); }
-                    }
-                }
+    //달력
+    window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
+
+    let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
+    let today = new Date();     // 페이지를 로드한 날짜를 저장
+    today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
+
+    // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
+    function buildCalendar() {
+
+        let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
+        let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+
+        let tbody_Calendar = document.querySelector(".Calendar > tbody");
+        document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
+        document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+
+        while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
+            tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+        }
+
+        let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
+
+        for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
+            let nowColumn = nowRow.insertCell();        // 열 추가
+        }
+
+        for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+
+            let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+
+
+            let newDIV = document.createElement("p");
+            newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
+            nowColumn.appendChild(newDIV);
+
+            if (nowDay.getDay() == 6) {                 // 토요일인 경우
+                nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
             }
 
-            // 날짜 선택
-            function choiceDate(newDIV) {
-                if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
-                    document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
-                }
-                newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
+            if (nowDay < today) {                       // 지난날인 경우
+                newDIV.className = "pastDay";
+            }
+            else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
+                newDIV.className = "today";
+                newDIV.onclick = function () { choiceDate(this); }
+            }
+            else {                                      // 미래인 경우
+                newDIV.className = "futureDay";
+                newDIV.onclick = function () { choiceDate(this); }
+            }
+        }
+    }
 
-                // 해당 날짜에 있는 매치 글 가지고오기
-                const date = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), newDIV.innerText);   // 선택한 날짜의 Date 객체 생성
-                window.location.href = `/match/date/${date}`;
-            }
+    // 날짜 선택
+    function choiceDate(newDIV) {
+        if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
+            document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
+        }
+        newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
 
-            // 이전달 버튼 클릭
-            function prevCalendar() {
-                nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
-                buildCalendar();    // 달력 다시 생성
-            }
-            // 다음달 버튼 클릭
-            function nextCalendar() {
-                nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
-                buildCalendar();    // 달력 다시 생성
-            }
+        // 해당 날짜에 있는 매치 글 가지고오기
+        const date = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), newDIV.innerText);   // 선택한 날짜의 Date 객체 생성
+        window.location.href = `/match/date/${date}`;
+    }
 
-            // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-            function leftPad(value) {
-                if (value < 10) {
-                    value = "0" + value;
-                    return value;
-                }
-                return value;
-            }
-        </script>
-    </body>
+    // 이전달 버튼 클릭
+    function prevCalendar() {
+        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
+        buildCalendar();    // 달력 다시 생성
+    }
+    // 다음달 버튼 클릭
+    function nextCalendar() {
+        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
+        buildCalendar();    // 달력 다시 생성
+    }
+
+    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+    function leftPad(value) {
+        if (value < 10) {
+            value = "0" + value;
+            return value;
+        }
+        return value;
+    }
+    </script>
+</body>
 </html>

@@ -116,30 +116,6 @@
         }
       }
 
-      // //매치 리스트 가져오기
-      // fetch('/match/list')
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     const tbody = document.getElementById('matchTableBody');
-      //     data.boards.forEach((matches, index) => {
-      //       const row = document.createElement('tr');
-      //       const matchDate = new Date(matches.matchDate).toLocaleDateString();
-      //       const createDate = new Date(matches.createdAt).toLocaleDateString();
-      //       row.innerHTML = `
-      //         <td>${index + 1}</td>
-      //         <td>${matches.state}</td>
-      //         <td>${matchDate}</td>
-      //         <td>${matches.sport}</td>
-      //         <td>${matches.title}</td>
-      //         <td>${createDate}</td>
-              
-      //       `;
-      //       tbody.appendChild(row);
-      //     });
-      //   })
-      //   .catch(error => console.error('Error:', error));
-
-
       //페이지네이션
       const ITEMS_PER_PAGE = 10;
 
