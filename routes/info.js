@@ -4,7 +4,7 @@ const fs = require("fs");
 
 /* GET contest page. */
 router.get("/", function (req, res, next) {
-  fs.readFile("./views/contest.html", (err, data) => {
+  fs.readFile("./views/soccer.html", (err, data) => {
     if (err) {
       res.send("error");
     } else {
