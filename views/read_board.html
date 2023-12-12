@@ -102,7 +102,7 @@
             
             <tr>
               <th>작성자</th>
-              <td>{{community.writer}}</td>
+              <td id="writer">{{community.writer}}</td>
             </tr>
             <tr>
               <th>카테고리</th>
@@ -156,13 +156,6 @@
       document.addEventListener('DOMContentLoaded', function() {
         checkAuthentication(); // 페이지 로드 시 토큰 확인
         getComment(); // 페이지 로드 시 댓글 로드
-
-      // 보드 ID를 가져와서 수정 버튼의 href 속성을 설정
-      const boardId = window.location.pathname.split('/').pop();
-        const editButton = document.getElementById('editButton');
-        if (editButton) {
-          editButton.href = `/community/edit/${boardId}`;
-        }
       });
 
       // 사용자의 인증 여부를 확인하는 함수
@@ -175,6 +168,32 @@
           window.location.href = '/users/login'; // 로그인 화면으로 리다이렉트
         }
       }
+
+      // 보드 ID를 가져와서 수정 버튼의 href 속성을 설정
+      const boardId = window.location.pathname.split('/').pop();
+      const editButton = document.getElementById('editButton');
+      if (editButton) {
+        editButton.href = `/community/edit/${boardId}`;
+      }
+
+      const token = sessionStorage.getItem('토큰');
+
+      fetch("/users/getid", {
+        method: 'GET',
+        headers: {
+          'authorization': `${token}`,
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(data => { 
+        const matchWriter = document.getElementById('writer').textContent.trim();
+        if (data.user_id !== matchWriter) {
+          document.getElementById('editButton').style.display = 'none';
+          document.getElementById('deleteButton').style.display = 'none';
+        }
+      })
+      .catch(error => console.error('Error:', error));
 
       // 댓글 쓰기
       document.getElementById('commentSubmit').addEventListener('click', () => {
