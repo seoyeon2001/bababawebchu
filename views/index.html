@@ -85,11 +85,12 @@
                               <table class="table table-hover table-striped">
                                 <thead>
                                   <tr>
-                                    <th>커뮤니티</th>
+                                    <th>모집상태</th>
+                                    <th>종목</th>
                                     <th>제목</th>
                                   </tr>
                                 </thead>
-                                <tbody id="communityTableBody">
+                                <tbody id="matchTableBody">
                                 <!-- 여기에 게시글 목록이 추가됨 -->
                                 </tbody>
                               </table>
@@ -181,48 +182,31 @@
     <script>
     const tbody = document.querySelector('tbody');
     
-    function getCategoryInKorean(category) {
-      switch(category) {
-        case 'daily':
-          return '자유게시판';
-        case 'equipment':
-          return '장비게시판';
-        case 'tip':
-          return '꿀팁게시판';
-        case 'market':
-          return '장터게시판';
-        case 'promotion':
-          return '홍보게시판';
-        default:
-          return category;
-      }
-    }
+
     function fetchData(page) {
-        fetch(`/community/list?page=${page}`)
-            .then(response => response.json())
-            .then(data => {
-            tbody.innerHTML = ''; // Clear the table
+        fetch(`/match/list?page=${page}`)
+          .then(response => response.json())
+          .then(data => {
+            tbody.innerHTML = ''; // 테이블 초기화
 
-            // Limiting to display only 5 posts or posts available if less than 5
-            const numberOfPosts = Math.min(5, data.boards.length);
+            data.boards.forEach((matches, index) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${matches.state}</td>
+                <td>${matches.sport}</td>
+                <td>${matches.title}</td>
+              `;
+              row.addEventListener('click', () => {
+                // 글 상세 페이지로 이동
+                window.location.href = `/match/read/${matches._id}`;
+              });
+              tbody.appendChild(row);
+            });
 
-            for (let index = 0; index < numberOfPosts; index++) {
-                const community = data.boards[index];
-                const row = document.createElement('tr');
-                const formattedDate = new Date(community.createdAt).toLocaleDateString();
-                row.innerHTML = `
-                <td>${getCategoryInKorean(community.category)}</td>
-                <td>${community.title}</td>
-                `;
-                row.addEventListener('click', () => {
-                // Redirect to the detailed view of the community
-                window.location.href = `/community/read/${community._id}`;
-                });
-                tbody.appendChild(row);
-            }
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            createPaginationButtons(data.totalPages, data.currentPage);
+          })
+          .catch(error => console.error('Error:', error));
+      }
 
     // 초기 데이터 로딩
     fetchData(1);
