@@ -301,8 +301,8 @@ router.get('/date/list/:date', async (req, res, next) => {
 
   const year = originalDate.getFullYear();
   const month = originalDate.getMonth();
-  const day = originalDate.getDate();
-
+  const day = originalDate.getDate()+1;
+  console.log(year, month, day);
   try {
     const page = parseInt(req.query.page) || 1;
     const skipItems = (page - 1) * ITEMS_PER_PAGE;
